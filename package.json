@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,17 @@
   },
   "homepage": "https://github.com/backToNature/mianyang-house#readme",
   "dependencies": {
+    "vue": "^2.1.0",
     "node-xlsx": "^0.7.4",
     "koa": "^2.3.0"
+  },
+  "devDependencies": {
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "file-loader": "^0.10.0",
+    "vue-loader": "^10.3.0",
+    "vue-template-compiler": "^2.1.10",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   }
 }
