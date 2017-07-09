@@ -2,15 +2,14 @@ var path = require('path');
 var webpack = require('webpack');
 var fs = require('fs');
 
-
 module.exports = {
   entry: {
-    vendor: ['vue', 'element-ui', ],
-    index: './public/src/index-entry.js',
+    vendor: ['vue', 'element-ui', 'vue-router'],
+    index: './public/src/components/index/index-entry.js',
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './public/dist'),
+    publicPath: './public/dist/',
     filename: '[name].js'
   },
   module: {

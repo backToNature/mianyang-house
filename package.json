@@ -23,7 +23,9 @@
   "dependencies": {
     "vue": "^2.1.0",
     "node-xlsx": "^0.7.4",
-    "koa": "^2.3.0"
+    "koa": "^2.3.0",
+    "vue-router": "*",
+    "element-ui": "*"
   },
   "devDependencies": {
     "cross-env": "^3.0.0",
