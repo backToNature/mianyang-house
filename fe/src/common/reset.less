@@ -136,3 +136,20 @@ html,body{
     _font-family:"\5B8B\4F53";
     color: #333;
 }
+
+/* 清除浮动 */
+.global-clearfix:after{
+    content:'.';
+    display:block;
+    visibility:hidden;
+    height:0;
+    line-height:0;
+    font-size:0;
+    clear:both;
+}
+.global-clearfix{
+    zoom:1;
+}
+.global-clear{
+    clear:both;
+}
