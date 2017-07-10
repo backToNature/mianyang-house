@@ -6,7 +6,8 @@ var copyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: {
     vendor: ['vue', 'element-ui', 'vue-router'],
-    index: './src/components/index/entry.js'
+    // index: './src/components/index/entry.js'
+    index: './src/app.js'
   },
   output: {
     filename: '[name].js',
