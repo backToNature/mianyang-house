@@ -22,6 +22,14 @@ const route = [
             {
                 path: 'unrented-house-table',
                 component: require('../components/unrented-house-table/unrented-house-table.vue')
+            },
+            {
+                path: 'renter-manager',
+                component: require('../components/renter-manager/renter-manager.vue')
+            },
+            {
+                path: 'unrenter-manager',
+                component: require('../components/unrenter-manager/unrenter-manager.vue')
             }
         ]
     }

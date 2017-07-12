@@ -7,8 +7,7 @@
                 <el-menu-item index="rented-house-list">已租用房屋</el-menu-item>
                 <el-menu-item index="unrented-house-list">未租用房屋</el-menu-item>
                 <el-menu-item index="renter-manager">租户管理</el-menu-item>
-                <el-menu-item index="1-2">房屋退组</el-menu-item>
-                <el-menu-item index="1-2">历史租户</el-menu-item>
+                <el-menu-item index="unrenter-manager">历史租户</el-menu-item>
             </el-submenu>
             <el-menu-item index="2">房屋管理</el-menu-item>
             <el-menu-item index="3">信息通知</el-menu-item>

@@ -2,10 +2,9 @@
     <div class="renter-manager">
         <div class="common-header">
             <div class="common-header-l">
-                <h1 class="title">租户管理</h1>
+                <h1 class="title">历史租户</h1>
             </div>
             <div class="common-header-r">
-                <el-button type="primary" size="small">添加租户</el-button>
                 <el-input
                   class="common-header-input"
                   size="small"
@@ -35,7 +34,7 @@
                     </el-table-column>
                     <el-table-column
                       prop="live_time"
-                      label="入住时间">
+                      label="退租时间">
                     </el-table-column>
                     <el-table-column
                       prop="user_dibao"
