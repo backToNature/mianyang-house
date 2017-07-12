@@ -1,8 +1,8 @@
 <template>
-    <div class="rented-house-list">
+    <div class="unrented-house-list">
         <div class="common-header">
             <div class="common-header-l">
-                <h1 class="title">已租用房屋</h1>
+                <h1 class="title">未租用房屋</h1>
             </div>
             <div class="common-header-r">
                 <el-input
@@ -24,7 +24,7 @@
                         <div class="bottom clearfix">
                           <time class="time">{{ currentDate }}</time>
                           <el-button size="small" type="text" class="button">查看地图</el-button>
-                          <router-link to="rented-house-table"><el-button  size="small" type="text" class="button">查看列表</el-button></router-link>
+                          <router-link to="unrented-house-table"><el-button  size="small" type="text" class="button">查看列表</el-button></router-link>
                         </div>
                       </div>
                     </el-card>

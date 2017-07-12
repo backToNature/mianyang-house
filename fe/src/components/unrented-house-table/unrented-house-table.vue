@@ -1,5 +1,5 @@
 <template>
-    <div class="rented-house-table">
+    <div class="unrented-house-table">
         <div class="common-header">
             <div class="common-header-l">
                 <h1 class="title">绵阳西苑-1号楼</h1>
@@ -222,9 +222,7 @@
             }
         },
         methods: {
-            handleIconClick() {
-
-            },
+            handleIconClick() {},
             handelDetail() {},
             handelEdit() {},
             handelRun() {},
