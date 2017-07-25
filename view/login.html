@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>Title</title>
 </head>
 <body>
-<form action="/login">
-    <input type="text">
-    <input type="password">
-    <button type="submit">登录</button>
-</form>
+    <form action="/api/account/login" method="post">
+        <input type="text" name="account">
+        <input type="password" name="pwd">
+        <button type="submit">登录</button>
+    </form>
 </body>
 </html>

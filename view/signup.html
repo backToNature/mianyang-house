@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+    <form id="form" action="/api/account/signup" method="post">
+        <input type="text" name="account" id="account">
+        <input type="password" name="pwd" id="pwd">
+        <input type="password" id="rePwd">
+        <button id="submit">注册</button>
+    </form>
+    <script>
+        var $ = function (el) {
+            return document.getElementById(el);
+        };
+        var $account = $('account');
+        var $pwd = $('pwd');
+        var $rePwd = $('rePwd');
+        $('submit').onclick = function (e) {
+            e.preventDefault();
+            if ($account.value === '' || $pwd.value === '' || $rePwd.value === '') {
+                alert('字段不能为空');
+            } else if ($pwd.value !== $rePwd.value) {
+                alert('两次密码不一样');
+            } else {
+                $('form').submit();
+            }
+        };
+    </script>
+</body>
+</html>

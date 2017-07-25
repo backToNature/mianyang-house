@@ -1,10 +1,12 @@
 /**
  * Created by daringuo on 2017/7/25.
  */
+
 module.exports = async function (ctx, next){
     let method = ctx.method.toLocaleLowerCase();
     let type = ctx.params.type;
     let handler = ctx.params.handler;
+    let result;
     try {
         if (method === 'get') {
         } else if (method === 'post'){

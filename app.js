@@ -13,19 +13,22 @@ app.keys = ['your-session-secret'];
 app.use(session({}, app));
 
 let staticCache = require('koa-static-cache');
-
+app.use(require('./lib/filter.js'));
 app.use(staticCache(path.join(__dirname, '/view'), {
     maxAge: 365 * 24 * 60 * 60
 }));
 
-app.use(require('./lib/filter.js'));
+app.use(staticCache(path.join(__dirname, '/fe/dist'), {
+    maxAge: 365 * 24 * 60 * 60
+}));
+
+
 
 router.post('/api/:type/:handler', require('./route/router_adapter.js'));
 
-
-router.get('/', function (ctx, next) {
-    ctx.body = 'Hello World!';
-});
+// router.get('/', async function (ctx, next) {
+//     ctx.body = 'Hello World!';
+// });
 
 app
     .use(router.routes())
