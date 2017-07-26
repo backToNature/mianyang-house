@@ -2,7 +2,6 @@ let Koa = require('koa');
 let Router = require('koa-router');
 let bodyParser = require('koa-bodyparser');
 let session = require('koa-session');
-let multer = require('koa-multer');
 let path = require('path');
 
 let app = new Koa();
@@ -24,10 +23,17 @@ app.use(staticCache(path.join(__dirname, '/fe/dist'), {
 }));
 
 // 文件上传
-var koaBody = require('koa-better-body');
-route.post('/upload', koaBody({
-    multipart: true
-}), require('./route/upload'));
+let upload = require('./route/upload.js');
+router.post('/upload', upload.upload, async (ctx, next) => {
+    let filePath = await upload.handleFileMd5(ctx.req.file.path);
+    ctx.body = {
+        filename: filePath//返回文件名
+    }
+});
+// var koaBody = require('koa-better-body');
+// router.post('/upload', koaBody({
+//     multipart: true
+// }), require('./route/upload'));
 
 
 router.post('/api/:type/:handler', require('./route/router_adapter.js'));

@@ -9,7 +9,7 @@ const tableName = 'building';
 
 module.exports = {
     queryListLikeName: async function (params) {
-        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%?%'`;
+        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
         let _params = [params.name];
         return await sql_excute(sql, _params);
     },
@@ -34,6 +34,17 @@ module.exports = {
         }
         frag = frag.substring(0, frag.length - 1);
         return await sql_excute(`UPDATE ${tableName} SET ${frag}`, _params)
+    },
+    updateRowById: async function (params) {
+        let frag = '', _params = [];
+        for (let key in params) {
+            if (key !== 'id') {
+                frag += key + '=?,';
+                _params.push(params[key]);
+            }
+        }
+        frag = frag.substring(0, frag.length - 1);
+        return await sql_excute(`UPDATE ${tableName} SET ${frag} WHERE id=${params.id}`, _params)
     },
     delRow: async function (params) {
         let _params = [params.id];

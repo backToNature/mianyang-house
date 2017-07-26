@@ -10,14 +10,31 @@ module.exports = async function (ctx, next){
     try {
         if (method === 'get') {
         } else if (method === 'post'){
-            if (type === 'account') {
-                switch (handler) {
-                    case 'login':
-                        await require('./account/login.js')(ctx, next);
-                        break;
-                }
+            switch (type) {
+                case 'account':
+                    switch (handler) {
+                        case 'login':
+                            await require('./account/login.js')(ctx, next);
+                            break;
+                    }
+                    break;
+                case 'building':
+                    switch (handler) {
+                        case 'list':
+                            await require('./building/list.js')(ctx, next);
+                            break;
+                        case 'add':
+                            await require('./building/add.js')(ctx, next);
+                            break;
+                        case 'update':
+                            await require('./building/update.js')(ctx, next);
+                            break;
+                        case 'del':
+                            await require('./building/del.js')(ctx, next);
+                            break;
+                    }
+                    break;
             }
-
         }
     } catch (e) {
         console.log(e);

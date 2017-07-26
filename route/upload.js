@@ -1,52 +1,50 @@
 /**
  * Created by daringuo on 2017/7/26.
  */
-var fs = require('fs')
-var app = require('koa')()
-var cdn = require('./../lib/file_upload')
-var config = require('./../config/global')
+const multer = require('koa-multer');
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const shell = require('shelljs');
 
-var env = app.env
+let storage = multer.diskStorage({
+    //文件保存路径
+    destination: (req, file, cb) => {
+        cb(null, os.tmpdir())
+    },
+    //修改文件名称
+    filename: (req, file, cb) =>{
+        let fileFormat = (file.originalname).split(".");
+        cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    }
+});
 
-function deleteFile(path) {
-    fs.unlink(path, function (err) {
-        if (err) {
-            console.error('delete', path, err)
-        }
-    })
-}
-
-module.exports = function *list(next) {
-    var ctx = this
-    var req = ctx.request
-    var file = req.body.files.uploadFile
-    var rename = req.body.fields.rename
-    var link
-    // 判断下是否需要改名, 忽略env原有逻辑
-    if (rename) {
-        rename = rename.split('#')
-        if (rename.length > 1) {
-            env = rename[0]
-        }
-        rename = config[app.env].uploadDir + '/' + rename[rename.length - 1]
-    }
-    if (file) {
-        try {
-            link = yield cdn.upload(file.path, env, rename)
-            this.body = {err: 0, link: link}
-        }
-        catch (e) {
-            this.body = {err: 1, errorStr: '上传发生错误'}
-        }
-        // 删除缓存文件
-        if (rename) {
-            deleteFile(rename)
-        }
-        else {
-            deleteFile(file.path)
-        }
-    }
-    else {
-        this.body = {err: 1, errorStr: '没有文件上传'}
-    }
-}
+let handleFileMd5 = (filePath) =>{
+    return new Promise((resolve, reject) => {
+        let start = new Date().getTime();
+        let md5sum = crypto.createHash('md5');
+        let stream = fs.createReadStream(filePath);
+        stream.on('data', (chunk) => {
+            md5sum.update(chunk);
+        });
+        stream.on('error', (err) => {
+            reject(err);
+        });
+        stream.on('end', () => {
+            let str = md5sum.digest('hex').toUpperCase();
+            console.log('MD5签名为:'+str+'.耗时:'+(new Date().getTime()-start)/1000.00+"秒");
+            let finalFileName =  str + path.extname(filePath);
+            let finalPath = path.join(process.cwd(), 'upload_dir', finalFileName);
+            shell.cp(filePath, finalPath);
+            shell.rm(filePath);
+            resolve(`/upload_dir/${finalFileName}`);
+        });
+    }).catch(err => {
+        return Promise.reject(err);
+    });
+};
+module.exports = {
+    upload: multer({storage: storage}).single('file'),
+    handleFileMd5
+};
