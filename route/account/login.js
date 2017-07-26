@@ -15,7 +15,6 @@ module.exports = async function (ctx, next) {
     };
 
     let result = await account_dao.queryAccount(_params);
-    ctx.body = '123123';
     if (result.length) {
         // 登录成功
         ctx.session.account = result[0].account;

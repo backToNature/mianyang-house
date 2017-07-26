@@ -6,9 +6,9 @@ let db_config = require('../config.js').db_config;
 
 let pool = mysql.createPool(db_config);
 
-module.exports = (sql) => {
+module.exports = (sql, params) => {
     return new Promise((resolve, reject) => {
-        pool.query(sql, (error, results) => {
+        pool.query(sql, params, (error, results) => {
             if (error) {
                 reject(error);
             } else {

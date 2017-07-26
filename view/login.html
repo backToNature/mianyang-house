@@ -6,9 +6,12 @@
 </head>
 <body>
     <form action="/api/account/login" method="post">
-        <input type="text" name="account">
-        <input type="password" name="pwd">
+        <label for="account">账号</label>
+        <input type="text" name="account" id="account">
+        <label for="pwd">密码</label>
+        <input type="password" name="pwd" id="pwd">
         <button type="submit">登录</button>
+        <a href="/signup.html">注册</a>
     </form>
 </body>
 </html>

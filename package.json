@@ -22,6 +22,7 @@
   "homepage": "https://github.com/backToNature/mianyang-house#readme",
   "dependencies": {
     "koa": "^2.3.0",
+    "koa-better-body": "^3.0.4",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
     "koa-session": "^5.4.0",

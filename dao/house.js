@@ -1,8 +1,11 @@
 /**
+ * Created by daringuo on 2017/7/26.
+ */
+/**
  * Created by daringuo on 2017/7/24.
  */
 const sql_excute = require('./sql_excute.js');
-const tableName = 'account';
+const tableName = 'house';b
 
 module.exports = {
     queryAccount: async function (params) {

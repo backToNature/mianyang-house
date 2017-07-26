@@ -2,6 +2,7 @@ let Koa = require('koa');
 let Router = require('koa-router');
 let bodyParser = require('koa-bodyparser');
 let session = require('koa-session');
+let multer = require('koa-multer');
 let path = require('path');
 
 let app = new Koa();
@@ -22,6 +23,11 @@ app.use(staticCache(path.join(__dirname, '/fe/dist'), {
     maxAge: 365 * 24 * 60 * 60
 }));
 
+// 文件上传
+var koaBody = require('koa-better-body');
+route.post('/upload', koaBody({
+    multipart: true
+}), require('./route/upload'));
 
 
 router.post('/api/:type/:handler', require('./route/router_adapter.js'));

@@ -4,8 +4,9 @@
 module.exports = {
     db_config: {
         host: 'localhost',
+        port:  3306,
         user: 'root',
-        password: 'zaq1230.',
+        password: '123',
         database: 'my_house'
     }
 };
