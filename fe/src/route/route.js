@@ -4,6 +4,24 @@ const route = [
         component: require('../app.vue'),
         children: [
             {
+                path: 'building-info',
+                component: require('../components/building-info/building-info.vue'),
+                children: [
+                    {
+                        path: 'list',
+                        component: require('../components/building-info/building-info-list.vue')
+                    },
+                    {
+                        path: 'map',
+                        component: require('../components/building-info/building-info-map.vue')
+                    },
+                    {
+                        path: 'pics',
+                        component: require('../components/building-info/building-info-pics.vue')
+                    }
+                ]
+            },
+            {
                 path: 'data-collection',
                 component: require('../components/index/data-collection.vue')
             },

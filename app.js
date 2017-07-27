@@ -9,11 +9,14 @@ let router = new Router();
 
 app.use(bodyParser());
 
-app.keys = ['your-session-secret'];
+app.keys = ['fuck you'];
 app.use(session({}, app));
 
 let staticCache = require('koa-static-cache');
+
+// 登录拦截器
 app.use(require('./lib/filter.js'));
+
 app.use(staticCache(path.join(__dirname, '/view'), {
     maxAge: 365 * 24 * 60 * 60
 }));
