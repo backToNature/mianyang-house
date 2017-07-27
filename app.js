@@ -25,6 +25,10 @@ app.use(staticCache(path.join(__dirname, '/fe/dist'), {
     maxAge: 365 * 24 * 60 * 60
 }));
 
+app.use(staticCache(path.join(__dirname, '/upload_dir'), {
+    maxAge: 365 * 24 * 60 * 60
+}));
+
 // 文件上传
 let upload = require('./route/upload.js');
 router.post('/upload', upload.upload, async (ctx, next) => {

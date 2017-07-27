@@ -11,7 +11,7 @@
             </el-submenu>
             <el-submenu index="2">
                 <template slot="title">房屋管理</template>
-                <el-menu-item index="building-info">楼栋信息</el-menu-item>
+                <el-menu-item index="building-info/list">楼栋信息</el-menu-item>
             </el-submenu>
             <el-menu-item index="3">信息通知</el-menu-item>
             <el-menu-item index="4">系统功能</el-menu-item>
