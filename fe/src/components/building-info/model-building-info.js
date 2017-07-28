@@ -4,6 +4,7 @@ export default {
     getBuildingList: async function (params) {
         let url = '/api/building/list';
         let option = {
+            mode: 'cors',
             method: 'POST',
             body: JSON.stringify(params),
             credentials: 'include',

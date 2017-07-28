@@ -13,6 +13,9 @@
                     </el-button-group>
                 </div>
                 <div class="common-r-item">
+                    <el-button size="small" type="primary" @click="addNew">新增</el-button>
+                </div>
+                <div class="common-r-item">
                     <el-input
                       size="small"
                       placeholder="按楼栋名称搜索"
@@ -21,15 +24,22 @@
                       :on-icon-click="handleIconClick">
                     </el-input>
                 </div>
+                
             </div>
         </div>
         <div class="content" v-loading="loading">
             <router-view></router-view>
         </div>
+        <div class="dialog">
+            <form-dialog ref="dialog"></form-dialog>
+        </div>
     </div>
 </template>
 <script>
     export default {
+        components: {
+            'form-dialog': require('./building-info-dialog.vue')
+        },
         data() {
             return {
                 loading: false,
@@ -42,6 +52,9 @@
         methods: {
             handleIconClick() {
 
+            },
+            addNew() {
+                this.$refs.dialog.dialogVisible = true
             },
             search() {
                 let params = Object.assign({}, this.searchParams);
