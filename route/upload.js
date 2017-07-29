@@ -35,10 +35,10 @@ let handleFileMd5 = (filePath) =>{
             let str = md5sum.digest('hex').toUpperCase();
             console.log('MD5签名为:'+str+'.耗时:'+(new Date().getTime()-start)/1000.00+"秒");
             let finalFileName =  str + path.extname(filePath);
-            let finalPath = path.join(process.cwd(), 'upload_dir', finalFileName);
+            let finalPath = path.join(process.cwd(), 'upload_dir/assets', finalFileName);
             shell.cp(filePath, finalPath);
             shell.rm(filePath);
-            resolve(`/upload_dir/${finalFileName}`);
+            resolve(`/assets/${finalFileName}`);
         });
     }).catch(err => {
         return Promise.reject(err);

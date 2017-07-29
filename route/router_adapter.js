@@ -34,6 +34,22 @@ module.exports = async function (ctx, next){
                             break;
                     }
                     break;
+                case 'user':
+                    switch (handler) {
+                        case 'list':
+                            await require('./user/list.js')(ctx, next);
+                            break;
+                        case 'add':
+                            await require('./user/add.js')(ctx, next);
+                            break;
+                        case 'update':
+                            await require('./user/update.js')(ctx, next);
+                            break;
+                        case 'del':
+                            await require('./user/del.js')(ctx, next);
+                            break;
+                    }
+                    break;
             }
         }
     } catch (e) {

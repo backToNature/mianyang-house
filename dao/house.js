@@ -12,6 +12,19 @@ module.exports = {
         let _params = [params.name];
         return await sql_excute(sql, _params);
     },
+    /**
+     * @param {boolean} is_live - 是否入住
+     * @param {number} user_id - 用户id
+     * @param {datetime} start_time - 入住开始时间
+     * @param {datetime} end_time - 入住截止时间
+     * @param {number} building_id - 楼栋id
+     * @param {string} name - 屋名
+     * @param {string} pageSize - 每页条数
+     * @param {string} pageNo - 当前页数
+     */
+    queryUnion: async function (is_live, user_id, start_time, end_time, building_id, name, pageSize, pageNo) {
+
+    },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';
         for (let key in params) {

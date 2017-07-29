@@ -24,11 +24,10 @@
                       :on-icon-click="handleIconClick">
                     </el-input>
                 </div>
-                
             </div>
         </div>
         <div class="content" v-loading="loading">
-            <router-view></router-view>
+            <router-view ref="link"></router-view>
         </div>
         <div class="dialog">
             <form-dialog ref="dialog"></form-dialog>
@@ -54,22 +53,22 @@
 
             },
             addNew() {
+                this.$refs.dialog.form.id = 0
                 this.$refs.dialog.dialogVisible = true
             },
             search() {
                 let params = Object.assign({}, this.searchParams);
-                switch (this.$route.path) {
-                    case '/building-info/list':
-                        break;
-                    case '/building-info/pics':
-                        break;
-                    case '/building-info/map':
-                        break;
-                }
+                // switch (this.$route.path) {
+                //     case '/building-info/list':
+                //         debugger;
+                //         break;
+                //     case '/building-info/pics':
+                //         break;
+                //     case '/building-info/map':
+                //         break;
+                // }
+                this.$refs.link.search();
             }
-        },
-        beforeMount() {
-            this.search();
         }
     }
 </script>

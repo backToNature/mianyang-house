@@ -32,8 +32,10 @@
                   label="描述">
                 </el-table-column>
                 <el-table-column
-                  prop="img_url"
                   label="楼栋图">
+                  <template scope="scope">
+                      <img v-if="scope.row.img_url" :src="scope.row.img_url" alt="" class="common-table-img">
+                  </template>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
@@ -41,7 +43,7 @@
                         width="100">
                     <template scope="scope">
                         <el-button type="text" size="small">查看</el-button>
-                        <el-button type="text" size="small">编辑</el-button>
+                        <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -62,6 +64,7 @@
 <script>
     import $$model from './model-building-info.js'
     export default {
+        name: 'building-info-list',
         data() {
             return {
                 loading: false,
@@ -74,7 +77,7 @@
         methods: {
             search: async function () {
                 this.loading = true;
-                let result = await $$model.getBuildingList({name: this.$parent.searchParams.name});
+                let result = await $$model.getList({name: this.$parent.searchParams.name});
                 this.loading = false;
                 this.tableData = result.data;
             },
@@ -83,6 +86,11 @@
             },
             handleCurrentChange() {
 
+            },
+            edit(row) {
+                let $dialog = this.$parent.$refs.dialog
+                Object.assign($dialog.form, row)
+                $dialog.dialogVisible = true
             }
         },
         beforeMount() {

@@ -6,7 +6,7 @@ module.exports = async function (ctx, next) {
     let params = ctx.request.body;
     let result = await building_dao.queryListLikeName(params);
     ctx.body = {
-        err: 0,
+        status: 0,
         data: result
     };
 };

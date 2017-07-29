@@ -1,14 +1,18 @@
 /**
- * Created by daringuo on 2017/7/26.
+ * Created by daringuo on 2017/7/29.
  */
 const sql_excute = require('./sql_excute.js');
-const tableName = 'building';
+const tableName = 'user';
 
 module.exports = {
     queryListLikeName: async function (params) {
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
         let _params = [params.name];
         return await sql_excute(sql, _params);
+    },
+    queryList: async function (params) {
+        let sql = `SELECT * FROM ${tableName}`;
+        return await sql_excute(sql, []);
     },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';

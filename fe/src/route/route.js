@@ -22,6 +22,14 @@ const route = [
                 ]
             },
             {
+                path: 'house',
+                component: require('../components/house/house.vue')
+            },
+            {
+                path: 'user-list',
+                component: require('../components/user/user-list.vue')
+            },
+            {
                 path: 'data-collection',
                 component: require('../components/index/data-collection.vue')
             },
