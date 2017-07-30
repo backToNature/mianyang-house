@@ -35,15 +35,68 @@
                     <el-switch v-model="searchParams.is_live" on-text="" off-text=""></el-switch>
                 </div>
                 <div class="common-r-item">
-                    <el-button size="small" type="primary">新增</el-button>
+                    <el-button @click="addNew" size="small" type="primary">新增</el-button>
                 </div>
             </div>
+        </div>
+        <div class="table-wrapper">
+            <el-table :data="tableData">
+                <el-table-column
+                  prop="id"
+                  label="id"
+                  width="60">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="名称">
+                </el-table-column>
+                <el-table-column
+                  prop="user_id"
+                  label="租户">
+                </el-table-column>
+                <el-table-column
+                  prop="building_id"
+                  label="所属楼栋">
+                </el-table-column>
+                <el-table-column
+                  prop="jwh"
+                  label="居委会">
+                </el-table-column>
+                <el-table-column
+                  prop="start_time"
+                  label="入住时间">
+                </el-table-column>
+                <el-table-column
+                  prop="end_time"
+                  label="退租时间">
+                </el-table-column>
+                <el-table-column
+                  prop="description"
+                  label="描述">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="100">
+                    <template scope="scope">
+                        <el-button type="text" size="small">查看</el-button>
+                        <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+        <div class="dialog">
+            <form-dialog ref="dialog"></form-dialog>
         </div>
     </div>
 </template>
 <script>
     import $$building_model from '../building-info/model-building-info.js'
+    import $$house_model from './model-house.js'
     export default {
+        componets: {
+            'form-dialog': require('./house-dialog.vue')
+        },
         data() {
             return {
                 buildingSelect: [],
@@ -55,24 +108,32 @@
                     start_time: '',
                     end_time: ''
                 },
+                tableData: [],
                 dateRange: []
             }
         },
         methods: {
             getbuildingSelect: async function () {
-                let res1 = await $$building_model.getList({name: ''});
+                let res1 = await $$building_model.getList({name: ''})
                 if (res1.status === 0) {
-                    this.buildingSelect = res1.data;
+                    this.buildingSelect = res1.data
                 } else {
 
                 }
             },
             search: async function () {
-
+                let res = await $$house_model.getList({})
+                if (res.status === 0) {
+                    this.tableData = res.data
+                }
+            },
+            addNew() {
+                this.$refs.dialog.dialogVisible = true
             }
         },
         beforeMount() {
-            this.getbuildingSelect();
+            this.getbuildingSelect()
+            this.search()
         }
     }
 </script>

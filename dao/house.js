@@ -4,9 +4,11 @@
 const sql_excute = require('./sql_excute.js');
 const tableName = 'house';
 
-
-
 module.exports = {
+    queryList: async function () {
+        let sql = `SELECT * FROM ${tableName}`;
+        return await sql_excute(sql, []);
+    },
     queryListLikeName: async function (params) {
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
         let _params = [params.name];

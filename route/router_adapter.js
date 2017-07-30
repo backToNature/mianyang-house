@@ -50,6 +50,22 @@ module.exports = async function (ctx, next){
                             break;
                     }
                     break;
+                case 'house':
+                    switch (handler) {
+                        case 'list':
+                            await require('./house/list.js')(ctx, next);
+                            break;
+                        case 'add':
+                            await require('./house/add.js')(ctx, next);
+                            break;
+                        case 'update':
+                            await require('./house/update.js')(ctx, next);
+                            break;
+                        case 'del':
+                            await require('./house/del.js')(ctx, next);
+                            break;
+                    }
+                    break;
             }
         }
     } catch (e) {
