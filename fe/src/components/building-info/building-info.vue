@@ -50,7 +50,7 @@
         },
         methods: {
             handleIconClick() {
-
+                this.search()
             },
             addNew() {
                 this.$refs.dialog.form.id = 0
@@ -58,15 +58,15 @@
             },
             search() {
                 let params = Object.assign({}, this.searchParams);
-                // switch (this.$route.path) {
-                //     case '/building-info/list':
-                //         debugger;
-                //         break;
-                //     case '/building-info/pics':
-                //         break;
-                //     case '/building-info/map':
-                //         break;
-                // }
+                switch (this.$route.path) {
+                    case '/building-info/list':
+                        this.$refs.link.search()
+                        break;
+                    case '/building-info/pics':
+                        break;
+                    case '/building-info/map':
+                        break;
+                }
                 this.$refs.link.search();
             }
         }

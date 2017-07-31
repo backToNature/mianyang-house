@@ -3,12 +3,26 @@
  */
 const sql_excute = require('./sql_excute.js');
 const tableName = 'building';
+// SELECT
+// *
+// FROM
+// house
+// LEFT JOIN building ON house.building_id=building.id
+// LEFT JOIN `user` ON house.user_id=`user`.id
+// WHERE `user`.name LIKE '%郭%'
 
 module.exports = {
     queryListLikeName: async function (params) {
-        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
+        let limitLeft = params.pageSize * (params.pageNo - 1);
+        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%' LIMIT ${limitLeft}, ${params.pageSize}`;
         let _params = [params.name];
-        return await sql_excute(sql, _params);
+        let list = await sql_excute(sql, _params);
+        let total = await sql_excute(`SELECT COUNT(*) FROM ${tableName}`, []);
+        total = total[0]['COUNT(*)'];
+        return {
+            list,
+            total
+        }
     },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';

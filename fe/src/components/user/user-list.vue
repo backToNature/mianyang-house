@@ -7,7 +7,7 @@
             <div class="common-header-r">
                 <div class="common-r-item">
                     <label for="">所属楼栋:</label>
-                    <el-select size="small" v-model="searchParams.building_id" class="common-search-line" placeholder="所属楼栋">
+                    <el-select size="small" v-model="searchParams.building_id" filterable class="common-search-line" placeholder="所属楼栋">
                         <el-option label="全部" :value="0"></el-option>
                         <el-option v-for="item in buildingSelect" :label="item.name" :value="item.id"></el-option>
                     </el-select>
@@ -109,9 +109,9 @@
 
             },
             getbuildingSelect: async function () {
-                let res1 = await $$building_model.getList({name: ''});
+                let res1 = await $$building_model.getList({name: '', pageSize: 100, pageNo: 1});
                 if (res1.status === 0) {
-                    this.buildingSelect = res1.data;
+                    this.buildingSelect = res1.data.list;
                 } else {
 
                 }

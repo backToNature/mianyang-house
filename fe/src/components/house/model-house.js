@@ -33,5 +33,16 @@ export default {
             headers: { "Content-Type" : "application/json" }
         };
         return await $$util.ajax(url, option);
+    },
+    delRow: async function (params) {
+        let url = '/api/house/del';
+        let option = {
+            mode: 'cors',
+            method: 'POST',
+            body: JSON.stringify(params),
+            credentials: 'include',
+            headers: { "Content-Type" : "application/json" }
+        };
+        return await $$util.ajax(url, option);
     }
 }

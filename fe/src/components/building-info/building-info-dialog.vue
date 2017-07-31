@@ -125,8 +125,8 @@
                 }, 200)
             },
             handleSubmit: async function () {
-                let res;
-                this.loading = true;
+                let res
+                this.loading = true
                 if (this.form.id === 0) {
                     let _params = Object.assign({}, this.form);
                     delete _params.id;

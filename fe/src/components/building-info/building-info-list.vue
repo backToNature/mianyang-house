@@ -52,9 +52,9 @@
             <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="pageNo"
+                :current-page="searchParams.pageNo"
                 :page-sizes="[10, 20, 30, 40]"
-                :page-size="pageSize"
+                :page-size="searchParams.pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
             </el-pagination>
@@ -67,25 +67,31 @@
         name: 'building-info-list',
         data() {
             return {
+                searchParams: {
+                    pageNo: 1,
+                    pageSize: 10
+                },
                 loading: false,
                 tableData: [],
-                pageNo: 1,
-                pageSize: 10,
                 total: 0
             }
         },
         methods: {
             search: async function () {
-                this.loading = true;
-                let result = await $$model.getList({name: this.$parent.searchParams.name});
-                this.loading = false;
-                this.tableData = result.data;
+                this.loading = true
+                let _params = Object.assign({name: this.$parent.searchParams.name}, this.searchParams)
+                let result = await $$model.getList(_params)
+                this.loading = false
+                this.tableData = result.data.list
+                this.total = result.data.total
             },
-            handleSizeChange() {
-
+            handleSizeChange(val) {
+                this.searchParams.pageSize = val
+                this.search()
             },
-            handleCurrentChange() {
-
+            handleCurrentChange(val) {
+                this.searchParams.pageNo = val
+                this.search()
             },
             edit(row) {
                 let $dialog = this.$parent.$refs.dialog

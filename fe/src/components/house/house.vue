@@ -79,8 +79,8 @@
                         label="操作"
                         width="100">
                     <template scope="scope">
-                        <el-button type="text" size="small">查看</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+                        <el-button type="text" size="small"  @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -94,7 +94,7 @@
     import $$building_model from '../building-info/model-building-info.js'
     import $$house_model from './model-house.js'
     export default {
-        componets: {
+        components: {
             'form-dialog': require('./house-dialog.vue')
         },
         data() {
@@ -129,6 +129,24 @@
             },
             addNew() {
                 this.$refs.dialog.dialogVisible = true
+            },
+            del: async function (id) {
+                this.$confirm('是否删除该房屋?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    this.loading = true
+                    let res = await $$house_model.delRow({id: id})
+                    this.loading = false
+                    if (res.status === 0) {
+                        this.search()
+                    } else {
+                        this.$message.error('网络错误')
+                    }
+                }).catch(() => {
+
+                });
             }
         },
         beforeMount() {
