@@ -37,6 +37,12 @@
                 <div class="common-r-item">
                     <el-button @click="addNew" size="small" type="primary">新增</el-button>
                 </div>
+                <div class="common-r-item">
+                    <el-button @click="addNew" size="small" type="primary">导入</el-button>
+                </div>
+                <div class="common-r-item">
+                    <el-button @click="addNew" size="small" type="primary">导出</el-button>
+                </div>
             </div>
         </div>
         <div class="table-wrapper">
