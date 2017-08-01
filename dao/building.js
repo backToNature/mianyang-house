@@ -3,13 +3,7 @@
  */
 const sql_excute = require('./sql_excute.js');
 const tableName = 'building';
-// SELECT
-// *
-// FROM
-// house
-// LEFT JOIN building ON house.building_id=building.id
-// LEFT JOIN `user` ON house.user_id=`user`.id
-// WHERE `user`.name LIKE '%郭%'
+
 
 module.exports = {
     queryListLikeName: async function (params) {

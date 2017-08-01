@@ -4,6 +4,22 @@
 const sql_excute = require('./sql_excute.js');
 const tableName = 'house';
 
+// SELECT
+// *
+// FROM
+// house
+// LEFT JOIN building ON house.building_id = building.id
+// LEFT JOIN `user` ON house.user_id = `user`.id
+// WHERE
+//     `user`.name  LIKE '%郭%'
+// AND
+// building.id=2
+// AND
+// house.start_time>'2017-07-1 00:00:00'
+// AND
+// house.end_time<'2017-10-16 00:00:00'
+
+
 module.exports = {
     queryList: async function () {
         let sql = `SELECT * FROM ${tableName}`;
