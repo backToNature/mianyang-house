@@ -29,7 +29,7 @@ app.use(staticCache(path.join(__dirname, '/upload_dir'), {
     maxAge: 365 * 24 * 60 * 60
 }));
 
-// 文件上传
+// 文件上传基础接口
 let upload = require('./route/upload.js');
 router.post('/upload', upload.upload, async (ctx, next) => {
     let filePath = await upload.handleFileMd5(ctx.req.file.path);

@@ -1,9 +1,12 @@
 /**
  * Created by daringuo on 2017/8/2.
  */
+let upload = require('')
+
 module.exports = async function (ctx, next) {
     let params = ctx.request.body;
-    let result = await building_dao.addRow(params);
+
+
     if (result.insertId >= 0) {
         ctx.body = {
             status: 0,
