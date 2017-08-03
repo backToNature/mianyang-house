@@ -33,5 +33,26 @@ export default {
             headers: { "Content-Type" : "application/json" }
         };
         return await $$util.ajax(url, option);
+    },
+    exportExcel: async function (params) {
+        let url = '/api/building/export'
+        let option = {
+            mode: 'cors',
+            method: 'POST',
+            body: JSON.stringify(params),
+            credentials: 'include',
+            headers: { "Content-Type" : "application/json" }
+        };
+        return await $$util.ajax(url, option);
+    },
+    exportAll: async function () {
+        let url = '/api/building/exportAll'
+        let option = {
+            mode: 'cors',
+            method: 'POST',
+            credentials: 'include',
+            headers: { "Content-Type" : "application/json" }
+        };
+        return await $$util.ajax(url, option);
     }
 }

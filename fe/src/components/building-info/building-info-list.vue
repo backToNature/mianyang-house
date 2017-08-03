@@ -1,7 +1,11 @@
 <template>
     <div class="building-info-list" v-loading="loading">
         <div class="table-wrapper">
-            <el-table :data="tableData">
+            <el-table :data="tableData" @selection-change="handleSelectionChange">
+                <el-table-column
+                  type="selection"
+                  width="55">
+                </el-table-column>
                 <el-table-column
                   prop="id"
                   label="id"
@@ -73,7 +77,8 @@
                 },
                 loading: false,
                 tableData: [],
-                total: 0
+                total: 0,
+                selectedIds: []
             }
         },
         methods: {
@@ -97,6 +102,10 @@
                 let $dialog = this.$parent.$refs.dialog
                 Object.assign($dialog.form, row)
                 $dialog.dialogVisible = true
+            },
+            handleSelectionChange(val) {
+                let selectedIds = val.map(item => item.id)
+                this.selectedIds = selectedIds
             }
         },
         beforeMount() {

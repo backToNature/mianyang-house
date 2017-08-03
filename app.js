@@ -38,21 +38,9 @@ router.post('/upload', upload.upload, async (ctx, next) => {
     }
 });
 
-
-// var koaBody = require('koa-better-body');
-// router.post('/upload', koaBody({
-//     multipart: tru
-// }), require('./route/upload'));
-
-
-
 // excel导入
 router.post('/api/:type/import', upload.upload, require('./route/router_adapter.js'));
 router.post('/api/:type/:handler', require('./route/router_adapter.js'));
-
-// router.get('/', async function (ctx, next) {
-//     ctx.body = 'Hello World!';
-// });
 
 app
     .use(router.routes())

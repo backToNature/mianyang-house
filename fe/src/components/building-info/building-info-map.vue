@@ -18,9 +18,13 @@
         methods: {
             search: async function () {
                 this.loading = true;
-                let result = await $$model.getList({name: this.$parent.searchParams.name});
+                let result = await $$model.getList({
+                    name: this.$parent.searchParams.name,
+                    pageNo: 1,
+                    pageSize: 100
+                });
                 this.loading = false;
-                this.tableData = result.data;
+                this.tableData = result.data.list;
                 this.mapInit(31.459052156068793, 104.67292785644531);
             },
             mapInit(lat, lng) {

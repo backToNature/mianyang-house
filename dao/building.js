@@ -6,6 +6,9 @@ const tableName = 'building';
 const mysql = require('mysql');
 
 module.exports = {
+    queryList: async function () {
+        return await sql_excute(`SELECT * FROM ${tableName}`);
+    },
     queryListLikeName: async function (params) {
         let limitLeft = params.pageSize * (params.pageNo - 1);
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%' LIMIT ${limitLeft}, ${params.pageSize}`;

@@ -19,7 +19,10 @@
                     <el-button @click="importExcel" size="small" type="primary">导入</el-button>
                 </div>
                 <div class="common-r-item">
-                    <el-button @click="addNew" size="small" type="primary">导出</el-button>
+                    <el-button @click="exportSingle" size="small" type="primary">导出</el-button>
+                </div>
+                <div class="common-r-item">
+                    <el-button @click="exportAll" size="small" type="primary">全部导出</el-button>
                 </div>
                 <div class="common-r-item">
                     <el-input
@@ -47,13 +50,19 @@
                       <el-button size="small" type="primary">点击上传</el-button>
                       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload>
-                    <el-button size="small" type="text">上传模板下载</el-button>
+                    <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
                 </div>
             </el-dialog>
+        </div>
+        <div class="download">
+            <form method="post" ref="downloadForm" id="building-form">
+                <iframe ref="downloadFrame" name="downloadFrame" style="display: none;" frameborder="0"></iframe>
+            </form>
         </div>
     </div>
 </template>
 <script>
+    import $$model from './model-building-info.js'
     export default {
         components: {
             'form-dialog': require('./building-info-dialog.vue')
@@ -108,6 +117,28 @@
                 } else {
                     this.$message.error(res.response.msg)
                 }
+            },
+            exportSingle: async function () {
+                if (this.$route.path !== '/building-info/list') {
+                    return
+                }
+                let selectedIds = this.$refs.link.selectedIds
+                if (!selectedIds) {
+                    this.$message({
+                        message: '请选择导出条目',
+                        type: 'warning'
+                    });
+                }
+                await $$model.exportExcel(selectedIds)
+            },
+            exportAll: async function () {
+                if (this.$route.path !== '/building-info/list') {
+                    return
+                }
+
+                this.$refs.downloadForm.setAttribute('action', '/api/building/exportAll')
+                this.$refs.downloadForm.setAttribute('target', 'downloadFrame')
+                this.$refs.downloadForm.submit();
             }
         }
     }

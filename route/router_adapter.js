@@ -37,6 +37,8 @@ module.exports = async function (ctx, next){
                             break;
                         case 'import':
                             await require('./building/import.js')(ctx, next);
+                        case 'exportAll':
+                            await require('./building/exportAll.js')(ctx, next);
                     }
                     break;
                 case 'user':
