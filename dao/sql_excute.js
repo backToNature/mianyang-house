@@ -10,14 +10,16 @@ module.exports = (sql, params) => {
     return new Promise((resolve, reject) => {
         pool.query(sql, params, (error, results) => {
             if (error) {
+                console.log(`sql:${sql}`, error);
                 reject(error);
             } else {
+                console.log(`sql:${sql}`, results);
                 resolve(results);
             }
         })
     }).catch(err => {
         let error = `db query error: ${err}`;
-        console.log(error);
+        console.log(`sql:${sql}`, error);
         return Promise.reject(error);
     });
 };

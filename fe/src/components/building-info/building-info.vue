@@ -16,7 +16,7 @@
                     <el-button size="small" type="primary" @click="addNew">新增</el-button>
                 </div>
                 <div class="common-r-item">
-                    <el-button @click="addNew" size="small" type="primary">导入</el-button>
+                    <el-button @click="importExcel" size="small" type="primary">导入</el-button>
                 </div>
                 <div class="common-r-item">
                     <el-button @click="addNew" size="small" type="primary">导出</el-button>
@@ -37,6 +37,19 @@
         </div>
         <div class="dialog">
             <form-dialog ref="dialog"></form-dialog>
+            <el-dialog size="tiny" title="注意: 请按照上传模板的格式进行上传" :visible.sync="importDialogVisible">
+                <div class="import-dialog" v-loading="importLoading">
+                    <el-upload
+                      class="upload-demo"
+                      action="/api/building/import"
+                      :before-upload="beforeImport"
+                      :on-success="importSuccess">
+                      <el-button size="small" type="primary">点击上传</el-button>
+                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                    <el-button size="small" type="text">上传模板下载</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -47,6 +60,8 @@
         },
         data() {
             return {
+                importLoading: false,
+                importDialogVisible: false,
                 loading: false,
                 searchParams: {
                     name: ''
@@ -73,9 +88,28 @@
                     case '/building-info/map':
                         break;
                 }
-                this.$refs.link.search();
+                this.$refs.link.search()
+            },
+            importExcel() {
+                this.importDialogVisible = true
+            },
+            beforeImport() {
+                this.importLoading = true
+            },
+            importSuccess(res) {
+                this.importLoading = false
+                if (res.status === 0) {
+                    this.$message({
+                        message: '导入成功',
+                        type: 'success'
+                    })
+                    this.importDialogVisible = false
+                    this.$refs.link.search()
+                } else {
+                    this.$message.error(res.response.msg)
+                }
             }
         }
     }
 </script>
-<style lang="less" src="./building-info.less"></style>
+<style lang="less" scoped></style>

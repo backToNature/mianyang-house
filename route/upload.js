@@ -20,6 +20,8 @@ let storage = multer.diskStorage({
     }
 });
 
+
+
 let handleFileMd5 = (filePath) =>{
     return new Promise((resolve, reject) => {
         let start = new Date().getTime();

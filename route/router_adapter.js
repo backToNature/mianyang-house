@@ -6,6 +6,9 @@ module.exports = async function (ctx, next){
     let method = ctx.method.toLocaleLowerCase();
     let type = ctx.params.type;
     let handler = ctx.params.handler;
+    if (ctx.path.indexOf('/import') >= 0) {
+        handler = 'import';
+    }
     let result;
     try {
         if (method === 'get') {
@@ -32,6 +35,8 @@ module.exports = async function (ctx, next){
                         case 'del':
                             await require('./building/del.js')(ctx, next);
                             break;
+                        case 'import':
+                            await require('./building/import.js')(ctx, next);
                     }
                     break;
                 case 'user':
@@ -69,6 +74,9 @@ module.exports = async function (ctx, next){
             }
         }
     } catch (e) {
-        console.log(e);
+        ctx.body = {
+            status: 500,
+            msg: e
+        };
     }
 };

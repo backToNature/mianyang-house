@@ -37,12 +37,17 @@ router.post('/upload', upload.upload, async (ctx, next) => {
         filename: filePath//返回文件名
     }
 });
+
+
 // var koaBody = require('koa-better-body');
 // router.post('/upload', koaBody({
-//     multipart: true
+//     multipart: tru
 // }), require('./route/upload'));
 
 
+
+// excel导入
+router.post('/api/:type/import', upload.upload, require('./route/router_adapter.js'));
 router.post('/api/:type/:handler', require('./route/router_adapter.js'));
 
 // router.get('/', async function (ctx, next) {

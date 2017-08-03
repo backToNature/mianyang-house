@@ -3,7 +3,7 @@
  */
 const sql_excute = require('./sql_excute.js');
 const tableName = 'building';
-
+const mysql = require('mysql');
 
 module.exports = {
     queryListLikeName: async function (params) {
@@ -17,6 +17,9 @@ module.exports = {
             list,
             total
         }
+    },
+    importData: async function (params) {
+        return await sql_excute(`INSERT INTO ${tableName}(name, address, description, lng, lat) VALUES ?`, [params])
     },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';
