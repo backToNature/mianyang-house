@@ -34,6 +34,17 @@ export default {
         };
         return await $$util.ajax(url, option);
     },
+    getHouseList: async function (params) {
+        let url = '/api/building/house';
+        let option = {
+            mode: 'cors',
+            method: 'POST',
+            body: JSON.stringify(params),
+            credentials: 'include',
+            headers: { "Content-Type" : "application/json" }
+        };
+        return await $$util.ajax(url, option);
+    },
     exportExcel: async function (params) {
         let url = '/api/building/export'
         let option = {

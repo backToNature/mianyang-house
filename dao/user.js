@@ -14,6 +14,7 @@ module.exports = {
         let sql = `SELECT * FROM ${tableName}`;
         return await sql_excute(sql, []);
     },
+    queryU
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';
         for (let key in params) {

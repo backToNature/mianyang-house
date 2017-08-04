@@ -30,6 +30,9 @@ module.exports = {
         let _params = [params.name];
         return await sql_excute(sql, _params);
     },
+    queryListByBuildingId: async function (params) {
+        return await sql_excute(`SELECT * FROM ${tableName} WHERE building_id=?`, [params.id])
+    },
     /**
      * @param {boolean} is_live - 是否入住
      * @param {number} user_id - 用户id

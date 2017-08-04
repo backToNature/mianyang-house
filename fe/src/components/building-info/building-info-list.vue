@@ -1,10 +1,17 @@
 <template>
     <div class="building-info-list" v-loading="loading">
         <div class="table-wrapper">
-            <el-table :data="tableData" @selection-change="handleSelectionChange">
+            <el-table @expand="expand" :data="tableData" @selection-change="handleSelectionChange">
+                <el-table-column type="expand">
+                  <template scope="props">
+                    <div class="expandRow" v-loading="expandLoading">
+                        <el-button type="text" size="small" v-for="item in houseList">{{item.name}}</el-button>
+                    </div>
+                  </template>
+                </el-table-column>
                 <el-table-column
                   type="selection"
-                  width="55">
+                  width="55"> 
                 </el-table-column>
                 <el-table-column
                   prop="id"
@@ -44,9 +51,10 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="200">
                     <template scope="scope">
-                        <el-button type="text" size="small">查看</el-button>
+                        <el-button type="text" size="small">导入房屋</el-button>
+                        <el-button type="text" size="small">详情</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
@@ -75,6 +83,8 @@
                     pageNo: 1,
                     pageSize: 10
                 },
+                expandLoading: true,
+                houseList: [],
                 loading: false,
                 tableData: [],
                 total: 0,
@@ -106,6 +116,17 @@
             handleSelectionChange(val) {
                 let selectedIds = val.map(item => item.id)
                 this.selectedIds = selectedIds
+            },
+            expand: async function (row, expanded) {
+                let result = []
+                if (expanded) {
+                    this.expandLoading = true
+                    result = await $$model.getHouseList({id: row.id})
+                    if (result.status === 0) {
+                        this.houseList = result.data
+                    }
+                    this.expandLoading = false
+                }
             }
         },
         beforeMount() {
@@ -113,3 +134,10 @@
         }
     }
 </script>
+<style lang="less" scoped>
+    // .expandRow {
+    //     width:-moz-calc(~`100% - 200px`);
+    //     width:-webkit-calc(~`100% - 200px`);
+    //     width: calc(~`100% - 200px`);
+    // }
+</style>

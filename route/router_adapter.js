@@ -35,6 +35,9 @@ module.exports = async function (ctx, next){
                         case 'del':
                             await require('./building/del.js')(ctx, next);
                             break;
+                        case 'house':
+                            await require('./building/house.js')(ctx, next);
+                            break;
                         case 'import':
                             await require('./building/import.js')(ctx, next);
                             break;

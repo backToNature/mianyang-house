@@ -1,6 +1,6 @@
 <template>
     <div class="user-form-dialog">
-        <el-dialog size="tiny" title="新增楼栋" :visible.sync="dialogVisible">
+        <el-dialog size="tiny" title="新增用户" :visible.sync="dialogVisible">
             <div class="dialog-from" v-loading="loading">
                 <el-form :model="form" :rules="rules" ref="form" label-width="90px">
                     <el-form-item label="姓名" prop="name" required>
