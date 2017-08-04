@@ -9,6 +9,9 @@ module.exports = {
     queryList: async function () {
         return await sql_excute(`SELECT * FROM ${tableName}`);
     },
+    queryListByIds: async function (params) {
+        return await sql_excute(`SELECT * FROM ${tableName} WHERE id IN (?)`, [params]);
+    },
     queryListLikeName: async function (params) {
         let limitLeft = params.pageSize * (params.pageNo - 1);
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%' LIMIT ${limitLeft}, ${params.pageSize}`;

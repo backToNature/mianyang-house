@@ -56,6 +56,7 @@
         </div>
         <div class="download">
             <form method="post" ref="downloadForm" id="building-form">
+                <input ref="ids" type="text" name="ids" style="display: none;">
                 <iframe ref="downloadFrame" name="downloadFrame" style="display: none;" frameborder="0"></iframe>
             </form>
         </div>
@@ -123,22 +124,27 @@
                     return
                 }
                 let selectedIds = this.$refs.link.selectedIds
-                if (!selectedIds) {
+                if (!selectedIds.length) {
                     this.$message({
                         message: '请选择导出条目',
                         type: 'warning'
-                    });
+                    })
+                    return
                 }
-                await $$model.exportExcel(selectedIds)
+                let downloadForm = this.$refs.downloadForm
+                this.$refs.ids.value = JSON.stringify(selectedIds)
+                downloadForm.setAttribute('action', '/api/building/export')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
             },
             exportAll: async function () {
                 if (this.$route.path !== '/building-info/list') {
                     return
                 }
-
-                this.$refs.downloadForm.setAttribute('action', '/api/building/exportAll')
-                this.$refs.downloadForm.setAttribute('target', 'downloadFrame')
-                this.$refs.downloadForm.submit();
+                let downloadForm = this.$refs.downloadForm
+                downloadForm.setAttribute('action', '/api/building/exportAll')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
             }
         }
     }
