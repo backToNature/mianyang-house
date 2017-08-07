@@ -48,7 +48,7 @@
                       :before-upload="beforeImport"
                       :on-success="importSuccess">
                       <el-button size="small" type="primary">点击上传</el-button>
-                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                      <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件，且不超过500kb</div>
                     </el-upload>
                     <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
                 </div>
@@ -57,11 +57,12 @@
                 <div class="import-dialog" v-loading="houseImportLoading">
                     <el-upload
                       class="upload-demo"
-                      action="/api/building/import"
+                      action="/api/house/import"
+                      :data="{id: importId}"
                       :before-upload="houseBeforeImport"
                       :on-success="houseImportSuccess">
                       <el-button size="small" type="primary">点击上传</el-button>
-                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                      <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件，且不超过500kb</div>
                     </el-upload>
                     <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
                 </div>
@@ -86,6 +87,7 @@
                 importLoading: false,
                 importDialogVisible: false,
                 houseImportDialogVisible: false,
+                importId: 0,
                 houseImportLoading: false,
                 loading: false,
                 searchParams: {

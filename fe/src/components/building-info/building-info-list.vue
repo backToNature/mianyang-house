@@ -53,7 +53,7 @@
                         label="操作"
                         width="200">
                     <template scope="scope">
-                        <el-button type="text" size="small">导入房屋</el-button>
+                        <el-button type="text" size="small" @click="importHouse(scope.row.id)">导入房屋</el-button>
                         <el-button type="text" size="small">详情</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                     </template>
@@ -99,6 +99,10 @@
                 this.loading = false
                 this.tableData = result.data.list
                 this.total = result.data.total
+            },
+            importHouse(id) {
+                this.$parent.importId = id
+                this.$parent.houseImportDialogVisible = true
             },
             handleSizeChange(val) {
                 this.searchParams.pageSize = val

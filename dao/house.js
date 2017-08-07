@@ -46,6 +46,10 @@ module.exports = {
     queryUnion: async function (is_live, user_id, start_time, end_time, building_id, name, pageSize, pageNo) {
 
     },
+    importData: async function (params) {
+        console.log(params);
+        return await sql_excute(`INSERT INTO ${tableName}(name, start_time, end_time, description, building_id) VALUES ?`, [params])
+    },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';
         for (let key in params) {
