@@ -14,7 +14,9 @@ module.exports = {
         let sql = `SELECT * FROM ${tableName}`;
         return await sql_excute(sql, []);
     },
-    queryU
+    importData: async function (params) {
+        return await sql_excute(`INSERT INTO ${tableName}(name, dibao, id_card, phone_num, etc) VALUES ?`, [params]);
+    },
     addRow: async function (params) {
         let frag = '', _params = [], placeholder = '';
         for (let key in params) {

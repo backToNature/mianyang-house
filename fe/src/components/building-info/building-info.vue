@@ -53,6 +53,19 @@
                     <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
                 </div>
             </el-dialog>
+            <el-dialog size="tiny" title="注意: 请按照上传模板的格式进行上传" :visible.sync="houseImportDialogVisible">
+                <div class="import-dialog" v-loading="houseImportLoading">
+                    <el-upload
+                      class="upload-demo"
+                      action="/api/building/import"
+                      :before-upload="houseBeforeImport"
+                      :on-success="houseImportSuccess">
+                      <el-button size="small" type="primary">点击上传</el-button>
+                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                    <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
+                </div>
+            </el-dialog>
         </div>
         <div class="download">
             <form method="post" ref="downloadForm" id="building-form">
@@ -72,6 +85,8 @@
             return {
                 importLoading: false,
                 importDialogVisible: false,
+                houseImportDialogVisible: false,
+                houseImportLoading: false,
                 loading: false,
                 searchParams: {
                     name: ''
@@ -102,6 +117,22 @@
             },
             importExcel() {
                 this.importDialogVisible = true
+            },
+            houseBeforeImport() {
+                this.houseImportLoading = true
+            },
+            houseImportSuccess(res) {
+                this.importLoading = false
+                if (res.status === 0) {
+                    this.$message({
+                        message: '导入成功',
+                        type: 'success'
+                    })
+                    this.importDialogVisible = false
+                    this.$refs.link.search()
+                } else {
+                    this.$message.error(res.response.msg)
+                }
             },
             beforeImport() {
                 this.importLoading = true
