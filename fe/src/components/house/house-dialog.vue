@@ -109,9 +109,6 @@
                     console.log(_params);
                 }
             }
-        },
-        beforeMount() {
-            this.search();
         }
     }
 </script>

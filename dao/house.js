@@ -34,17 +34,56 @@ module.exports = {
         return await sql_excute(`SELECT * FROM ${tableName} WHERE building_id=?`, [params.id])
     },
     /**
-     * @param {boolean} is_live - 是否入住
-     * @param {number} user_id - 用户id
+     * @param {number} user_name - 用户姓名
      * @param {datetime} start_time - 入住开始时间
      * @param {datetime} end_time - 入住截止时间
-     * @param {number} building_id - 楼栋id
+     * @param {number}  building_name - 楼栋名称
      * @param {string} name - 屋名
      * @param {string} pageSize - 每页条数
      * @param {string} pageNo - 当前页数
      */
-    queryUnion: async function (is_live, user_id, start_time, end_time, building_id, name, pageSize, pageNo) {
-
+    queryUnion: async function (user_name, start_time, end_time, building_name, name, pageSize, pageNo) {
+        let limitLeft = pageSize * (pageNo - 1);
+        let rowName = `
+        	house.id,
+            house.name AS house_name,
+            house.jwh,
+            house.start_time,
+            house.end_time,
+            house.description AS house_desc,
+            user.id AS user_id,
+            user.name AS user_name,
+            user.dibao,
+            user.phone_num,
+            user.id_card,
+            user.etc AS user_etc,
+            building.id AS building_id,
+            building.address,
+            building.lng,
+            building.lat,
+            building.name AS building_name,
+            building.description AS building_desc,
+            building.img_url`;
+        let sql = `SELECT ${rowName} FROM house LEFT JOIN building ON house.building_id = building.id LEFT JOIN \`user\` ON house.user_id = \`user\`.id`;
+        if (user_name !== '') {
+            sql += ` WHERE \`user\`.name LIKE '%${user_name}%'`;
+        }
+        if (building_name !== '') {
+            if (sql.indexOf('WHERE') >= 0) {
+                sql += ` AND building.name LIKE '%${building_name}%'`;
+            } else {
+                sql += ` WHERE building.name LIKE '%${building_name}%'`;
+            }
+        }
+        if (start_time && end_time) {
+            if (sql.indexOf('WHERE') >= 0) {
+                sql += ` AND house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
+            } else {
+                sql += ` WHERE house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
+            }
+        }
+        sql += `  LIMIT ${limitLeft}, ${pageSize}`;
+        return await sql_excute(sql, []);
     },
     importData: async function (params) {
         console.log(params);

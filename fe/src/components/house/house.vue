@@ -7,10 +7,11 @@
             <div class="common-header-r">
                 <div class="common-r-item">
                     <label for="">所属楼栋:</label>
-                    <el-select size="small" v-model="searchParams.building_id" class="common-search-line" placeholder="所属楼栋">
+                    <!-- <el-select size="small" v-model="searchParams.building_id" class="common-search-line" placeholder="所属楼栋">
                         <el-option label="全部" :value="0"></el-option>
                         <el-option v-for="item in buildingSelect" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    </el-select> -->
+                    <el-input v-model="searchParams.building_name" placeholder="请输入楼栋名称" class="common-search-line" size="small"></el-input>
                 </div>
                 <div class="common-r-item">
                     <label for="">名称:</label>
@@ -29,10 +30,6 @@
                         type="daterange"
                         placeholder="选择日期范围">
                     </el-date-picker>
-                </div>
-                <div class="common-r-item">
-                    <label for="">是否入住:</label>
-                    <el-switch v-model="searchParams.is_live" on-text="" off-text=""></el-switch>
                 </div>
                 <div class="common-r-item">
                     <el-button @click="addNew" size="small" type="primary">新增</el-button>
@@ -57,11 +54,11 @@
                   label="名称">
                 </el-table-column>
                 <el-table-column
-                  prop="user_id"
+                  prop="user_name"
                   label="租户">
                 </el-table-column>
                 <el-table-column
-                  prop="building_id"
+                  prop="building_name"
                   label="所属楼栋">
                 </el-table-column>
                 <el-table-column
@@ -83,13 +80,26 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="200">
                     <template scope="scope">
+                        <el-button type="text" size="small" @click="edit(scope.row)">续租</el-button>
+                        <el-button type="text" size="small" @click="edit(scope.row)">退租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                         <el-button type="text" size="small"  @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
+        </div>
+        <div class="common-pagenation">
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="searchParams.pageNo"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="searchParams.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
         </div>
         <div class="dialog">
             <form-dialog ref="dialog"></form-dialog>
@@ -105,32 +115,34 @@
         },
         data() {
             return {
-                buildingSelect: [],
                 searchParams: {
-                    building_id: 0,
+                    building_name: '',
                     name: '',
                     user_name: '',
-                    is_live: false,
                     start_time: '',
-                    end_time: ''
+                    end_time: '',
+                    pageNo: 1,
+                    pageSize: 10
                 },
                 tableData: [],
-                dateRange: []
+                dateRange: [],
+                total: 10
             }
         },
         methods: {
-            getbuildingSelect: async function () {
-                let res1 = await $$building_model.getList({name: ''})
-                if (res1.status === 0) {
-                    this.buildingSelect = res1.data
-                } else {
-
-                }
+            handleSizeChange(val) {
+                this.searchParams.pageSize = val
+                this.search()
+            },
+            handleCurrentChange(val) {
+                this.searchParams.pageNo = val
+                this.search
             },
             search: async function () {
-                let res = await $$house_model.getList({})
+                let res = await $$house_model.getList(this.searchParams)
                 if (res.status === 0) {
-                    this.tableData = res.data
+                    this.tableData = res.data.list
+                    this.total = res.data.total
                 }
             },
             addNew() {
@@ -156,7 +168,6 @@
             }
         },
         beforeMount() {
-            this.getbuildingSelect()
             this.search()
         }
     }
