@@ -17,6 +17,7 @@
             <el-submenu index="3">
                 <template slot="title">租户管理</template>
                 <el-menu-item index="/user-list">租户列表</el-menu-item>
+                <el-menu-item index="/unrenter-manager">历史租户</el-menu-item>
             </el-submenu>
             <!-- <el-menu-item index="4">信息通知</el-menu-item> -->
             <el-menu-item index="5">系统功能</el-menu-item>

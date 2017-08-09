@@ -2,24 +2,24 @@
     <div class="house-dialog">
         <el-dialog size="tiny" title="新增房屋" :visible.sync="dialogVisible">
             <div class="dialog-from" v-loading="loading">
-                <el-form :model="form" :rules="rules" ref="form" label-width="90px">
+                <el-form :model="form" :rules="rules" ref="form" label-width="130px">
                     <el-form-item label="房屋名称" prop="name" required>
                         <el-input placeholder="请输入房屋名称" class="common-form-line" size="small" v-model="form.name"></el-input>
                     </el-form-item>
                     <el-form-item label="所属楼栋" prop="building_id" required>
-                        <el-select size="small" v-model="form.building_id" class="common-search-line" placeholder="选择楼栋">
+                        <el-select size="small" filterable v-model="form.building_id" class="common-search-line" placeholder="选择楼栋">
                             <el-option v-for="item in buildingSelect" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="租户" prop="user_id" required>
-                        <el-select size="small" v-model="form.user_id" class="common-search-line" placeholder="选择租户">
+                        <el-select size="small" filterable v-model="form.user_id" class="common-search-line" placeholder="选择租户">
                             <el-option v-for="item in userSelect" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="居委会" prop="jwh" required>
                         <el-input placeholder="请输入居委会" class="common-form-line" size="small" v-model="form.jwh"></el-input>
                     </el-form-item>
-                    <el-form-item label="时间方位" required>
+                    <el-form-item label="租用&退租时间" required>
                         <el-date-picker
                             v-model="dateRange"
                             size="small"
@@ -69,10 +69,24 @@
         },
         watch: {
             dialogVisible(val) {
-
+                if (val === true) {
+                    this.search()
+                    if (this.form.id > 0) {
+                        // 编辑
+                        this.dateRange = []
+                        this.dateRange[0] = new Date(this.form.start_time) == 'Invalid Date' ? '' : new Date(this.form.start_time)
+                        this.dateRange[1] = new Date(this.form.end_time) == 'Invalid Date' ? '' : new Date(this.form.end_time)
+                    } else {
+                        for (let key in this.form) {
+                            if (key !== 'id') {
+                                this.form[key] = ''
+                            }
+                        }
+                        this.dateRange = []
+                    }
+                }
             },
             dateRange(val) {
-                console.log(val)
                 if (val[0]) {
                     this.form.start_time = $$util.dateFormat(new Date(val[0]), 'yyyy-MM-dd hh:mm:ss')
                 }
@@ -83,12 +97,12 @@
         },
         methods: {
             search() {
-                Promise.all([$$model_user.getList({}), $$model_building.getList({name: ''})]).then(values => {
+                Promise.all([$$model_user.getList({}), $$model_building.getList({name: '', pageNo: 1, pageSize: 100})]).then(values => {
                     if (values[0].status === 0) {
                         this.userSelect = values[0].data
                     }
                     if (values[1].status === 0) {
-                        this.buildingSelect = values[1].data
+                        this.buildingSelect = values[1].data.list
                     }
                 });
             },

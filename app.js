@@ -25,8 +25,11 @@ app.use(staticCache(path.join(__dirname, '/fe/dist'), {
     maxAge: 365 * 24 * 60 * 60
 }));
 
+
 app.use(staticCache(path.join(__dirname, '/upload_dir'), {
-    maxAge: 365 * 24 * 60 * 60
+    maxAge: 365 * 24 * 60 * 60,
+    dynamic: true
+    // preload: false
 }));
 
 // 文件上传基础接口

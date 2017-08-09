@@ -46,7 +46,7 @@
                   width="60">
                 </el-table-column>
                 <el-table-column
-                  prop="name"
+                  prop="house_name"
                   label="名称">
                 </el-table-column>
                 <el-table-column
@@ -62,10 +62,12 @@
                   label="居委会">
                 </el-table-column>
                 <el-table-column
+                  :formatter="startTimeFormatter"
                   prop="start_time"
                   label="入住时间">
                 </el-table-column>
                 <el-table-column
+                  :formatter="endTimeFormatter"
                   prop="end_time"
                   label="退租时间">
                 </el-table-column>
@@ -103,6 +105,7 @@
     </div>
 </template>
 <script>
+    import $$util from '../../lib/util.js'
     import $$building_model from '../building-info/model-building-info.js'
     import $$house_model from './model-house.js'
     export default {
@@ -110,16 +113,18 @@
             'form-dialog': require('./house-dialog.vue')
         },
         data() {
+            let query = this.$route.query
+
             return {
                 loading: false,
                 searchParams: {
-                    building_name: '',
-                    name: '',
-                    user_name: '',
-                    start_time: '',
-                    end_time: '',
-                    pageNo: 1,
-                    pageSize: 10
+                    building_name: query.building_name || '',
+                    name: query.name || '',
+                    user_name: query.user_name || '',
+                    start_time: query.start_time || '',
+                    end_time: query.end_time || '',
+                    pageNo: parseInt(query.pageNo) || 1,
+                    pageSize: parseInt(query.pageSize) || 10
                 },
                 tableData: [],
                 dateRange: [],
@@ -127,13 +132,33 @@
             }
         },
         methods: {
+            startTimeFormatter(row) {
+                return $$util.dateFormat(new Date(row.start_time), 'yyyy-MM-dd')
+            },
+            endTimeFormatter(row) {
+                return $$util.dateFormat(new Date(row.end_time), 'yyyy-MM-dd')
+            },
+            edit(row) {
+                let $dialog = this.$refs.dialog
+                let _params = {
+                    id: row.id,
+                    name: row.house_name,
+                    building_id: row.building_id,
+                    user_id: row.user_id,
+                    jwh: row.jwh,
+                    start_time: row.start_time,
+                    end_time: row.end_time
+                };
+                Object.assign($dialog.form, _params);
+                $dialog.dialogVisible = true
+            },
             handleSizeChange(val) {
                 this.searchParams.pageSize = val
                 this.search()
             },
             handleCurrentChange(val) {
                 this.searchParams.pageNo = val
-                this.search
+                this.search()
             },
             search: async function () {
                 this.loading = true
@@ -167,6 +192,13 @@
             }
         },
         beforeMount() {
+            // building_name: '',
+            // name: '',
+            // user_name: '',
+            // start_time: '',
+            // end_time: '',
+            // pageNo: 1,
+            // pageSize: 10
             this.search()
         }
     }
