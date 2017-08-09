@@ -5,7 +5,7 @@
                 <el-table-column type="expand">
                   <template scope="props">
                     <div class="expandRow" v-loading="expandLoading">
-                        <el-button type="text" size="small" v-for="item in houseList">{{item.name}}</el-button>
+                        <a class="house-item" target="_blank" :href="`/index.html#/house?building_name=${props.row.name}&name=${item.name}`" v-for="item in houseList"><el-button type="text" size="small">{{item.name}}</el-button></a>
                     </div>
                   </template>
                 </el-table-column>
@@ -54,7 +54,7 @@
                         width="200">
                     <template scope="scope">
                         <el-button type="text" size="small" @click="importHouse(scope.row.id)">导入房屋</el-button>
-                        <el-button type="text" size="small">详情</el-button>
+                        <a style="magin: 0 5px;" :href="`/index.html#/house?building_name=${scope.row.name}`" target="_blank"><el-button type="text" size="small">详情</el-button></a>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
@@ -139,6 +139,12 @@
     }
 </script>
 <style lang="less" scoped>
+    .building-info-list {
+        .house-item {
+            margin: 0 15px;
+        }
+    }
+    
     // .expandRow {
     //     width:-moz-calc(~`100% - 200px`);
     //     width:-webkit-calc(~`100% - 200px`);

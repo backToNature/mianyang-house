@@ -25,7 +25,7 @@
                 });
                 this.loading = false;
                 this.tableData = result.data.list;
-                this.mapInit(31.459052156068793, 104.67292785644531);
+                this.mapInit(32.40253782222, 104.558858871459);
             },
             mapInit(lat, lng) {
                 let map, geocoder;

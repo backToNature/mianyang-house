@@ -68,6 +68,13 @@ module.exports = {
         if (user_name !== '') {
             sql += ` WHERE \`user\`.name LIKE '%${user_name}%'`;
         }
+        if (name !== '') {
+            if (sql.indexOf('WHERE') >= 0) {
+                sql += ` AND house.name LIKE '%${name}%'`;
+            } else {
+                sql += ` WHERE house.name LIKE '%${name}%'`;
+            }
+        }
         if (building_name !== '') {
             if (sql.indexOf('WHERE') >= 0) {
                 sql += ` AND building.name LIKE '%${building_name}%'`;

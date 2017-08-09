@@ -107,10 +107,10 @@
                 });
             },
             handleSubmit: async function () {
-                let res
+                let res, _params
                 this.loading = true
                 if (this.form.id === 0) {
-                    let _params = Object.assign({}, this.form);
+                    _params = Object.assign({}, this.form);
                     delete _params.id;
                     res = await $$model_house.addRow(_params)
                     this.loading = false
@@ -120,7 +120,16 @@
                     } else {
                         this.$message.error('false')
                     }
-                    console.log(_params);
+                } else {
+                    _params = Object.assign({}, this.form);
+                    res = await $$model_house.updateRow(_params)
+                    this.loading = false
+                    if (res.status === 0) {
+                        this.$parent.search()
+                        this.dialogVisible = false
+                    } else {
+                        this.$message.error('false')
+                    }
                 }
             }
         }

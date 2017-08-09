@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
+Source Server         : local-test
 Source Server Version : 50139
 Source Host           : localhost:3306
 Source Database       : my_house
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50139
 File Encoding         : 65001
 
-Date: 2017-08-09 19:12:55
+Date: 2017-08-10 02:35:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -80,12 +80,12 @@ CREATE TABLE `house` (
 -- ----------------------------
 -- Records of house
 -- ----------------------------
-INSERT INTO `house` VALUES ('1', null, '43', null, '1幢1单元5楼1号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '公租房申请');
-INSERT INTO `house` VALUES ('2', null, '43', null, '1幢1单元5楼2号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '火烧房子');
-INSERT INTO `house` VALUES ('3', null, '43', null, '1幢1单元6楼1号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '公租房申请');
-INSERT INTO `house` VALUES ('4', null, '43', null, '1幢1单元6楼2号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '公租房申请');
-INSERT INTO `house` VALUES ('5', null, '43', null, '1幢2单元1楼1号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '金色家园过渡安置');
-INSERT INTO `house` VALUES ('6', null, '43', null, '1幢2单元1楼2号', '2016-12-24 00:00:00', '2016-12-24 00:00:00', '金色家园过渡安置');
+INSERT INTO `house` VALUES ('1', '11', '43', null, '1幢1单元5楼1号', '2016-12-07 00:00:00', '2017-09-01 00:00:00', '公租房申请');
+INSERT INTO `house` VALUES ('2', '9', '43', null, '1幢1单元5楼2号', '2017-07-01 00:00:00', '2019-08-15 00:00:00', '火烧房子');
+INSERT INTO `house` VALUES ('3', '13', '43', null, '1幢1单元6楼1号', '2016-12-09 00:00:00', '2019-01-09 00:00:00', '公租房申请');
+INSERT INTO `house` VALUES ('4', '12', '43', null, '1幢1单元6楼2号', '2016-01-01 00:00:00', '2018-02-16 00:00:00', '公租房申请');
+INSERT INTO `house` VALUES ('5', '14', '43', null, '1幢2单元1楼1号', '2016-11-10 00:00:00', '2018-12-13 00:00:00', '金色家园过渡安置');
+INSERT INTO `house` VALUES ('6', '15', '43', null, '1幢2单元1楼2号', '2016-11-01 00:00:00', '2018-12-27 00:00:00', '金色家园过渡安置');
 INSERT INTO `house` VALUES ('7', '10', '44', '绵阳二局', '这是新增楼栋', '2017-08-09 00:00:00', '2017-08-25 00:00:00', '啦啦');
 
 -- ----------------------------

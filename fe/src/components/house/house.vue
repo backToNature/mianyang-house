@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="table-wrapper" v-loading="loading">
-            <el-table :data="tableData">
+            <el-table :data="tableData" :row-class-name="tableRowClassName">
                 <el-table-column
                   prop="id"
                   label="id"
@@ -69,7 +69,7 @@
                 <el-table-column
                   :formatter="endTimeFormatter"
                   prop="end_time"
-                  label="退租时间">
+                  label="到期时间">
                 </el-table-column>
                 <el-table-column
                   prop="description"
@@ -78,8 +78,9 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="200">
+                        width="240">
                     <template scope="scope">
+                        <!-- <el-button type="text" size="small" @click="notice(scope.row)">提醒续租</el-button> -->
                         <el-button type="text" size="small" @click="edit(scope.row)">续租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">退租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
@@ -114,7 +115,6 @@
         },
         data() {
             let query = this.$route.query
-
             return {
                 loading: false,
                 searchParams: {
@@ -132,6 +132,13 @@
             }
         },
         methods: {
+            tableRowClassName(row) {
+                let now = new Date()
+                if (new Date(row.end_time).valueOf() - now.valueOf() <= 30 * 24 * 60 * 60 * 1000) {
+                    return 'out-date';
+                }
+                return '';
+            },
             startTimeFormatter(row) {
                 return $$util.dateFormat(new Date(row.start_time), 'yyyy-MM-dd')
             },
@@ -203,3 +210,10 @@
         }
     }
 </script>
+<style lang="less">
+    .house {
+        .out-date {
+            background: #c9e5f5;
+        }
+    }
+</style>
