@@ -7,20 +7,16 @@
             <div class="common-header-r">
                 <div class="common-r-item">
                     <label for="">所属楼栋:</label>
-                    <!-- <el-select size="small" v-model="searchParams.building_id" class="common-search-line" placeholder="所属楼栋">
-                        <el-option label="全部" :value="0"></el-option>
-                        <el-option v-for="item in buildingSelect" :label="item.name" :value="item.id"></el-option>
-                    </el-select> -->
-                    <el-input v-model="searchParams.building_name" placeholder="请输入楼栋名称" class="common-search-line" size="small"></el-input>
+                    <el-input @keyup.enter.native="search" v-model="searchParams.building_name" placeholder="请输入楼栋名称" class="common-search-line" size="small"></el-input>
                 </div>
                 <div class="common-r-item">
                     <label for="">名称:</label>
-                    <el-input v-model="searchParams.name" placeholder="请输入房屋名称" class="common-search-line" size="small"></el-input>
+                    <el-input @keyup.enter.native="search" v-model="searchParams.name" placeholder="请输入房屋名称" class="common-search-line" size="small"></el-input>
                 </div>
                 
                 <div class="common-r-item">
                     <label for="">用户:</label>
-                    <el-input v-model="searchParams.user_name" placeholder="请输入用户" class="common-search-line" size="small"></el-input>
+                    <el-input @keyup.enter.native="search" v-model="searchParams.user_name" placeholder="请输入用户" class="common-search-line" size="small"></el-input>
                 </div>
                 <div class="common-r-item">
                     <label for="">入住时间范围:</label>
@@ -42,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper" v-loading="loading">
             <el-table :data="tableData">
                 <el-table-column
                   prop="id"
@@ -85,7 +81,7 @@
                         <el-button type="text" size="small" @click="edit(scope.row)">续租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">退租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-                        <el-button type="text" size="small"  @click="del(scope.row.id)">删除</el-button>
+                        <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -115,6 +111,7 @@
         },
         data() {
             return {
+                loading: false,
                 searchParams: {
                     building_name: '',
                     name: '',
@@ -139,7 +136,9 @@
                 this.search
             },
             search: async function () {
+                this.loading = true
                 let res = await $$house_model.getList(this.searchParams)
+                this.loading = false
                 if (res.status === 0) {
                     this.tableData = res.data.list
                     this.total = res.data.total
