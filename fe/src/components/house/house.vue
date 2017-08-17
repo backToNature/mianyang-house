@@ -21,6 +21,7 @@
                 <div class="common-r-item">
                     <label for="">入住时间范围:</label>
                     <el-date-picker
+                        @change="search"
                         v-model="dateRange"
                         size="small"
                         type="daterange"
@@ -39,7 +40,11 @@
             </div>
         </div>
         <div class="table-wrapper" v-loading="loading">
-            <el-table :data="tableData" :row-class-name="tableRowClassName">
+            <el-table :data="tableData" :row-class-name="tableRowClassName" @selection-change="handleSelectionChange">
+                <el-table-column
+                  type="selection"
+                  width="55"> 
+                </el-table-column>
                 <el-table-column
                   prop="id"
                   label="id"
@@ -128,14 +133,23 @@
                 },
                 tableData: [],
                 dateRange: [],
-                total: 10
+                total: 10,
+                selectedIds: []
+            }
+        },
+        watch: {
+            dateRange(val) {
+                if (val[0]) {
+                    this.searchParams.start_time = $$util.dateFormat(val[0], 'yyyy-MM-dd hh:mm:ss')
+                    this.searchParams.end_time = $$util.dateFormat(val[1], 'yyyy-MM-dd hh:mm:ss')
+                }
             }
         },
         methods: {
             tableRowClassName(row) {
                 let now = new Date()
                 if (new Date(row.end_time).valueOf() - now.valueOf() <= 30 * 24 * 60 * 60 * 1000) {
-                    return 'out-date';
+                   return 'out-date';
                 }
                 return '';
             },
@@ -158,6 +172,10 @@
                 };
                 Object.assign($dialog.form, _params);
                 $dialog.dialogVisible = true
+            },
+            handleSelectionChange(val) {
+                let selectedIds = val.map(item => item.id)
+                this.selectedIds = selectedIds
             },
             handleSizeChange(val) {
                 this.searchParams.pageSize = val
@@ -199,13 +217,6 @@
             }
         },
         beforeMount() {
-            // building_name: '',
-            // name: '',
-            // user_name: '',
-            // start_time: '',
-            // end_time: '',
-            // pageNo: 1,
-            // pageSize: 10
             this.search()
         }
     }
