@@ -5,6 +5,14 @@
                 <h1 class="title">房屋信息</h1>
             </div>
             <div class="common-header-r">
+                <div class="common-r-item" style="margin-right: 20px;">
+                    <span class="color-block red"></span>
+                    <span>空置</span>
+                    <span class="color-block yellow"></span>
+                    <span>已过期</span>
+                    <span class="color-block blue"></span>
+                    <span>快到期</span>
+                </div>
                 <div class="common-r-item">
                     <label for="">所属楼栋:</label>
                     <el-input @keyup.enter.native="search" v-model="searchParams.building_name" placeholder="请输入楼栋名称" class="common-search-line" size="small"></el-input>
@@ -85,11 +93,10 @@
                         label="操作"
                         width="240">
                     <template scope="scope">
-                        <!-- <el-button type="text" size="small" @click="notice(scope.row)">提醒续租</el-button> -->
-                        <el-button type="text" size="small" @click="edit(scope.row)">续租</el-button>
-                        <el-button type="text" size="small" @click="edit(scope.row)">退租</el-button>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                         <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>
+                        <el-button v-if="scope.row.user_name" type="text" size="small" @click="handleReRent(scope.row)">续租</el-button>
+                        <el-button v-if="scope.row.user_name" type="text" size="small" @click="edit(scope.row)">退租</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -107,6 +114,23 @@
         </div>
         <div class="dialog">
             <form-dialog ref="dialog"></form-dialog>
+            <el-dialog size="tiny" title="续租房屋" :visible.sync="reRentDialog">
+                <el-form ref="form" label-width="130px">
+                    <el-form-item label="延长退租时间至" required>
+                        <el-date-picker
+                            v-model="date"
+                            size="small"
+                            type="date"
+                            :picker-options="pickerOptions"
+                            placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-form>
+                <div class="common-submit-w">
+                    <el-button @click="reRentDialog = false">取消</el-button>
+                    <el-button type="primary" @click="rent">提交</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -121,6 +145,15 @@
         data() {
             let query = this.$route.query
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                },
+                reRentDialog: false,
+                rentRow: {},
+                date: '',
+                index: 0,
                 loading: false,
                 searchParams: {
                     building_name: query.building_name || '',
@@ -146,18 +179,67 @@
             }
         },
         methods: {
+            
+            handleReRent(row) {
+                this.rentRow = row
+                this.date = new Date(row.end_time)
+                this.reRentDialog = true
+            },
+            rent: async function () {
+                let res, _params
+                this.loading = true
+                _params = Object.assign({}, {
+                    id: this.rentRow.id,
+                    name: this.rentRow.house_name,
+                    building_id: this.rentRow.building_id,
+                    user_id: this.rentRow.user_id,
+                    jwh: this.rentRow.jwh,
+                    start_time: $$util.dateFormat(new Date(this.rentRow.start_time), 'yyyy-MM-dd hh:mm:ss'),
+                    end_time: this.rentRow.end_time
+                });
+                _params.end_time = $$util.dateFormat(this.date, 'yyyy-MM-dd hh:mm:ss')
+
+                for (let key in _params) {
+                    if (_params[key] === '') {
+                        delete _params[key]
+                    }
+                }
+                res = await $$house_model.updateRow(_params)
+                this.loading = false
+                if (res.status === 0) {
+                    this.search()
+                    this.reRentDialog = false
+                } else {
+                    this.$message.error('false')
+                }
+
+            },
             tableRowClassName(row) {
                 let now = new Date()
-                if (new Date(row.end_time).valueOf() - now.valueOf() <= 30 * 24 * 60 * 60 * 1000) {
+                if (!row.user_name) {
+                    return 'empty';
+                }
+                if (new Date(row.end_time).valueOf() - now.valueOf() <= 30 * 24 * 60 * 60 * 1000 && new Date(row.end_time).valueOf() - now.valueOf() > 0) {
                    return 'out-date';
+                }
+                if (new Date(row.end_time).valueOf() < now.valueOf()) {
+                    return 'excc'
                 }
                 return '';
             },
             startTimeFormatter(row) {
-                return $$util.dateFormat(new Date(row.start_time), 'yyyy-MM-dd')
+                if (row.start_time) {
+                    return $$util.dateFormat(new Date(row.start_time), 'yyyy-MM-dd')
+                } else {
+                    return ''
+                }
             },
             endTimeFormatter(row) {
-                return $$util.dateFormat(new Date(row.end_time), 'yyyy-MM-dd')
+                if (row.end_time) {
+                    return $$util.dateFormat(new Date(row.end_time), 'yyyy-MM-dd')
+                } else {
+                    return ''
+                }
             },
             edit(row) {
                 let $dialog = this.$refs.dialog
@@ -223,7 +305,18 @@
 </script>
 <style lang="less">
     .house {
-        .out-date {
+        .color-block {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        .red,.empty {
+            background: #f7bcbc;
+        }
+        .yellow,.excc {
+            background: #ffffbf;
+        }
+        .blue,.out-date {
             background: #c9e5f5;
         }
     }

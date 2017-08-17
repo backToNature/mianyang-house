@@ -22,6 +22,10 @@ app.use(staticCache(path.join(__dirname, '/upload_dir'), {
     // preload: false
 }));
 
+
+
+app.use(require('./lib/filter.js'));
+
 app.use(staticCache(path.join(__dirname, '/view'), {
     maxAge: 365 * 24 * 60 * 60
 }));
@@ -29,8 +33,6 @@ app.use(staticCache(path.join(__dirname, '/view'), {
 app.use(staticCache(path.join(__dirname, '/fe/dist'), {
     maxAge: 365 * 24 * 60 * 60
 }));
-
-app.use(require('./lib/filter.js'));
 
 // 文件上传基础接口
 let upload = require('./route/upload.js');

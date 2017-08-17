@@ -1,5 +1,5 @@
 /**
- * Created by daringuo on 2017/7/25.
+ * Created by daringuo on 2017/8/17.
  */
 let account_dao = require('../../dao/account.js');
 module.exports = async function (ctx, next) {
@@ -8,18 +8,19 @@ module.exports = async function (ctx, next) {
     let account = params.account;
     // 密码
     let pwd = params.pwd;
+    // 用户明
+    let name = params.name;
 
     let _params = {
         account,
-        pwd
+        pwd,
+        name
     };
 
-    let result = await account_dao.queryAccount(_params);
-    if (result.length) {
-        // 登录成功
-        ctx.session.account = result[0].account;
-        ctx.session.name = result[0].name;
-        ctx.redirect('/index.html#/data-collection');
+    let result = await account_dao.addAccount(_params);
+    if (result.insertId) {
+        // 注册成功
+        ctx.redirect('/login-success.html');
     } else {
         ctx.redirect('/login-fail.html');
     }

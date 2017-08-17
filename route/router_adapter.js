@@ -19,6 +19,15 @@ module.exports = async function (ctx, next){
                         case 'login':
                             await require('./account/login.js')(ctx, next);
                             break;
+                        case 'signup':
+                            await require('./account/signup.js')(ctx, next);
+                            break;
+                        case 'info':
+                            await require('./account/info.js')(ctx, next);
+                            break;
+                        case 'logout':
+                            await require('./account/logout.js')(ctx, next);
+                            break;
                     }
                     break;
                 case 'building':

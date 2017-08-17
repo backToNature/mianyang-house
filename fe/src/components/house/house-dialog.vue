@@ -6,20 +6,20 @@
                     <el-form-item label="房屋名称" prop="name" required>
                         <el-input placeholder="请输入房屋名称" class="common-form-line" size="small" v-model="form.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="所属楼栋" prop="building_id" required>
+                    <el-form-item label="所属楼栋" prop="building_id">
                         <el-select size="small" filterable v-model="form.building_id" class="common-search-line" placeholder="选择楼栋">
                             <el-option v-for="item in buildingSelect" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="租户" prop="user_id" required>
+                    <el-form-item label="租户" prop="user_id">
                         <el-select size="small" filterable v-model="form.user_id" class="common-search-line" placeholder="选择租户">
                             <el-option v-for="item in userSelect" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="居委会" prop="jwh" required>
+                    <el-form-item label="居委会" prop="jwh">
                         <el-input placeholder="请输入居委会" class="common-form-line" size="small" v-model="form.jwh"></el-input>
                     </el-form-item>
-                    <el-form-item label="租用&退租时间" required>
+                    <el-form-item label="租用&退租时间">
                         <el-date-picker
                             v-model="dateRange"
                             size="small"
@@ -27,7 +27,7 @@
                             placeholder="选择日期范围">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="描述" prop="description" required>
+                    <el-form-item label="描述" prop="description">
                         <el-input placeholder="请输入低保号" class="common-form-line" size="small" v-model="form.description"></el-input>
                     </el-form-item>
                 </el-form>
@@ -112,6 +112,11 @@
                 if (this.form.id === 0) {
                     _params = Object.assign({}, this.form);
                     delete _params.id;
+                    for (let key in _params) {
+                        if (_params[key] === '') {
+                            delete _params[key]
+                        }
+                    }
                     res = await $$model_house.addRow(_params)
                     this.loading = false
                     if (res.status === 0) {

@@ -70,7 +70,7 @@
                                     <div class="tab-content">
                                         <div class="tab-content-inner active" data-content="signup">
                                             <h3 class="cursive-font">新用户注册</h3>
-                                            <form id="form" action="/api/account/login" method="post">
+                                            <form id="form" action="/api/account/signup" method="post">
                                                 <div class="row form-group">
 
                                                 </div>
@@ -78,6 +78,13 @@
                                                     <div class="col-md-12" >
                                                         <label for="account">账号：</label>
                                                         <input type="text" name="account" id="account" class="form-control" placeholder="请输入账号">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="name">昵称：</label>
+                                                        <input class="form-control" type="text" name="name" id="name" placeholder="请输入昵称">
                                                     </div>
                                                 </div>
 
@@ -151,9 +158,10 @@
     var $account = $('#account');
     var $pwd = $('#pwd');
     var $rePwd = $('#rePwd');
+    var $name = $('#name');
     $('#submit').on('click', function (e) {
         e.preventDefault();
-        if ($account.val() === '' || $pwd.val() === '' || $rePwd.val() === '') {
+        if ($account.val() === '' || $pwd.val() === '' || $rePwd.val() === '' || $name.val() === '') {
             alert('字段不能为空');
         } else if ($pwd.val() !== $rePwd.val()) {
             alert('两次密码不一样');

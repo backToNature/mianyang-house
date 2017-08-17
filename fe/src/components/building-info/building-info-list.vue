@@ -54,7 +54,7 @@
                         width="200">
                     <template scope="scope">
                         <el-button type="text" size="small" @click="importHouse(scope.row.id)">导入房屋</el-button>
-                        <a style="magin: 0 5px;" :href="`/index.html#/house?building_name=${scope.row.name}`" target="_blank"><el-button type="text" size="small">详情</el-button></a>
+                        <a style="margin: 0 10px;" :href="`/index.html#/house?building_name=${scope.row.name}`" target="_blank"><el-button type="text" size="small">详情</el-button></a>
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>

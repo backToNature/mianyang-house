@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar" ref="sidebar">
-        <el-menu :router="true" theme="light">
+        <el-menu default-active="/data-collection" :router="true" theme="light">
             <el-menu-item index="/data-collection"><i class="el-icon-document"></i>首页</el-menu-item>
             <el-submenu index="1">
                 <template slot="title"><i class="el-icon-star-on"></i>房屋管理</template>
@@ -16,7 +16,7 @@
                 <template slot="title"><i class="el-icon-message"></i>通知报警</template>
                 <el-menu-item index="/notice">通知列表</el-menu-item>
             </el-submenu>
-            <el-menu-item index="4"><i class="el-icon-setting"></i>系统功能</el-menu-item>
+            <!-- <el-menu-item index="4"><i class="el-icon-setting"></i>系统功能</el-menu-item> -->
         </el-menu>
     </div>
 </template>

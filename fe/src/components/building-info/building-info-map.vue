@@ -58,7 +58,7 @@
                     });
                     label.setStyle({cursor: 'pointer'})
                     qq.maps.event.addListener(label, 'click', e => {
-                        
+                        window.open(`/index.html#/house?building_name=${item.name}`)
                     })
                     qq.maps.event.addListener(label, 'mouseover', e => {
                         label.setStyle({background: '#20a0ff', color: '#fff'})
