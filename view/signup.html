@@ -1,33 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
+    <meta charset="utf-8">
+    <title>平武县保障性住房管理系统</title>
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/cdn/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/cdn/css/icomoon.css">
+    <!-- Themify Icons-->
+    <link rel="stylesheet" href="/cdn/css/themify-icons.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/cdn/css/bootstrap.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/cdn/css/magnific-popup.css">
+
+    <!-- Bootstrap DateTimePicker -->
+    <link rel="stylesheet" href="/cdn/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="/cdn/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/cdn/css/owl.theme.default.min.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/cdn/css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="/cdn/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="/cdn/js/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 <body>
-    <form id="form" action="/api/account/signup" method="post">
-        <input type="text" name="account" id="account">
-        <input type="password" name="pwd" id="pwd">
-        <input type="password" id="rePwd">
-        <button id="submit">注册</button>
-    </form>
-    <script>
-        var $ = function (el) {
-            return document.getElementById(el);
-        };
-        var $account = $('account');
-        var $pwd = $('pwd');
-        var $rePwd = $('rePwd');
-        $('submit').onclick = function (e) {
-            e.preventDefault();
-            if ($account.value === '' || $pwd.value === '' || $rePwd.value === '') {
-                alert('字段不能为空');
-            } else if ($pwd.value !== $rePwd.value) {
-                alert('两次密码不一样');
-            } else {
-                $('form').submit();
-            }
-        };
-    </script>
+
+<div class="gtco-loader"></div>
+
+<div id="page">
+
+
+    <!-- <div class="page-inner"> -->
+    <nav class="gtco-nav" role="navigation" style="background-color:white">
+        <div class="gtco-container" >
+
+            <div class="row" >
+                <div class="col-sm-4 col-xs-12">
+                    <div id="gtco-logo"><a href="index.html"><font style="color:black">平武县保障性住房管理系统</font> <em></em></a></div>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner"  style="background-image: url(/cdn/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+        <div class="overlay" ></div>
+        <div class="gtco-container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0 text-left">
+                    <div class="row row-mt-15em">
+                        <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                            <span class="intro-text-small">四川省绵阳市 <a href="http://gettemplates.co" target="_blank">平武公产管理所</a></span>
+                            <h1 class="cursive-font">Welcome!</h1>
+                        </div>
+                        <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                            <div class="form-wrap">
+                                <div class="tab">
+                                    <div class="tab-content">
+                                        <div class="tab-content-inner active" data-content="signup">
+                                            <h3 class="cursive-font">新用户注册</h3>
+                                            <form id="form" action="/api/account/login" method="post">
+                                                <div class="row form-group">
+
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col-md-12" >
+                                                        <label for="account">账号：</label>
+                                                        <input type="text" name="account" id="account" class="form-control" placeholder="请输入账号">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="pwd">密码：</label>
+                                                        <input class="form-control" type="password" name="pwd" id="pwd" placeholder="请输入密码">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="rePwd">重复密码：</label>
+                                                        <input class="form-control" type="password" name="rePwd" id="rePwd" placeholder="请重复密码">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="submit" class="btn btn-primary btn-block" value="注册">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="footer" style="text-align:center">
+        <div class="container">
+            <div class="footer_left left">
+                Copyright&copy; 2016 <a href="http://www.axgyy.com" target="_blank">axgyy.com</a> All rights reserved. <a href="#" target="_blank">四川绵阳xxxx</a> 版权所有.
+            </div>
+            <div class="footer_right right">
+                邮件：<a href="mailto:axgyygwh@my.gov.cn?subject=&quot;axgyygwh@my.gov.cn&quot;">xxxxx</a>  联系电话：xxx
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+</div>
+
+<!-- jQuery -->
+<script src="/cdn/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="/cdn/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="/cdn/js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="/cdn/js/jquery.waypoints.min.js"></script>
+<!-- Carousel -->
+<script src="/cdn/js/owl.carousel.min.js"></script>
+<!-- countTo -->
+
+<!-- Stellar Parallax -->
+
+<!-- Magnific Popup -->
+<script src="/cdn/js/jquery.magnific-popup.min.js"></script>
+<script src="/cdn/js/magnific-popup-options.js"></script>
+<!-- Main -->
+<script src="/cdn/js/main.js"></script>
+
+<script>
+    var $account = $('#account');
+    var $pwd = $('#pwd');
+    var $rePwd = $('#rePwd');
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        if ($account.val() === '' || $pwd.val() === '' || $rePwd.val() === '') {
+            alert('字段不能为空');
+        } else if ($pwd.val() !== $rePwd.val()) {
+            alert('两次密码不一样');
+        } else {
+            $('#form').submit();
+        }
+    });
+</script>
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+
+
+
+<!--<form action="/api/account/login" method="post">-->
+<!--<label for="account">账号</label>-->
+<!--<input type="text" name="account" id="account">-->
+<!--<label for="pwd">密码</label>-->
+<!--<input type="password" name="pwd" id="pwd">-->
+<!--<button type="submit">登录</button>-->
+<!--<a href="/signup.html">注册</a>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>注册</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<form id="form" action="/api/account/signup" method="post">-->
+        <!--<input type="text" name="account" id="account">-->
+        <!--<input type="password" name="pwd" id="pwd">-->
+        <!--<input type="password" id="rePwd">-->
+        <!--<button id="submit">注册</button>-->
+    <!--</form>-->
+    <!--<script>-->
+        <!--var $ = function (el) {-->
+            <!--return document.getElementById(el);-->
+        <!--};-->
+        <!--var $account = $('account');-->
+        <!--var $pwd = $('pwd');-->
+        <!--var $rePwd = $('rePwd');-->
+        <!--$('submit').onclick = function (e) {-->
+            <!--e.preventDefault();-->
+            <!--if ($account.value === '' || $pwd.value === '' || $rePwd.value === '') {-->
+                <!--alert('字段不能为空');-->
+            <!--} else if ($pwd.value !== $rePwd.value) {-->
+                <!--alert('两次密码不一样');-->
+            <!--} else {-->
+                <!--$('form').submit();-->
+            <!--}-->
+        <!--};-->
+    <!--</script>-->
+<!--</body>-->
+<!--</html>-->

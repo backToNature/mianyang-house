@@ -299,22 +299,10 @@
          format: 'DD/MM/YYYY'
      	});
 		$('#time').datetimepicker({
-			format: 'LT'	
+			format: 'LT'
 		});
 
-		
-	};
 
-	var parallax = function() {
-
-		if ( !isMobile.any() ) {
-			$(window).stellar({
-				horizontalScrolling: false,
-				hideDistantElements: false, 
-				responsive: true
-
-			});
-		}
 	};
 
 
@@ -330,8 +318,6 @@
 		goToTop();
 		loaderPage();
 		counterWayPoint();
-		dateTimeForm();
-		parallax();
 	});
 
 
