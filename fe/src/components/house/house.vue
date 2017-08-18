@@ -21,7 +21,6 @@
                     <label for="">名称:</label>
                     <el-input @keyup.enter.native="search" v-model="searchParams.name" placeholder="请输入房屋名称" class="common-search-line" size="small"></el-input>
                 </div>
-                
                 <div class="common-r-item">
                     <label for="">用户:</label>
                     <el-input @keyup.enter.native="search" v-model="searchParams.user_name" placeholder="请输入用户" class="common-search-line" size="small"></el-input>
@@ -40,10 +39,10 @@
                     <el-button @click="addNew" size="small" type="primary">新增</el-button>
                 </div>
                 <div class="common-r-item">
-                    <el-button @click="addNew" size="small" type="primary">导入</el-button>
+                    <el-button @click="exportSingle" size="small" type="primary">导出</el-button>
                 </div>
                 <div class="common-r-item">
-                    <el-button @click="addNew" size="small" type="primary">导出</el-button>
+                    <el-button @click="exportAll" size="small" type="primary">导出全部</el-button>
                 </div>
             </div>
         </div>
@@ -96,7 +95,7 @@
                         <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
                         <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>
                         <el-button v-if="scope.row.user_name" type="text" size="small" @click="handleReRent(scope.row)">续租</el-button>
-                        <el-button v-if="scope.row.user_name" type="text" size="small" @click="edit(scope.row)">退租</el-button>
+                        <el-button v-if="scope.row.user_name" type="text" size="small" @click="quitRent(scope.row)">退租</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -132,6 +131,12 @@
                 </div>
             </el-dialog>
         </div>
+        <div class="download">
+            <form method="post" ref="downloadForm">
+                <input ref="ids" type="text" name="ids" style="display: none;">
+                <iframe ref="downloadFrame" name="downloadFrame" style="display: none;" frameborder="0"></iframe>
+            </form>
+        </div>
     </div>
 </template>
 <script>
@@ -144,10 +149,14 @@
         },
         data() {
             let query = this.$route.query
+            let _this = this
             return {
+                importDialog: {
+                    dialogVisible: false
+                },
                 pickerOptions: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now() - 8.64e7;
+                        return time.getTime() < _this.date;
                     }
                 },
                 reRentDialog: false,
@@ -179,7 +188,48 @@
             }
         },
         methods: {
-            
+            exportSingle() {
+                if (!this.selectedIds.length) {
+                    this.$message({
+                        message: '请选择导出条目',
+                        type: 'warning'
+                    })
+                    return
+                }
+                let downloadForm = this.$refs.downloadForm
+                this.$refs.ids.value = JSON.stringify(this.selectedIds)
+                downloadForm.setAttribute('action', '/api/house/export')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
+            },
+            exportAll() {
+                let downloadForm = this.$refs.downloadForm
+                downloadForm.setAttribute('action', '/api/house/exportAll')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
+            },
+            quitRent: async function (row) {
+                this.$confirm('是否退租?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    this.loading = true
+                    let res = await $$house_model.quitRent({id: row.id})
+                    this.loading = false
+                    if (res.status === 0) {
+                        this.$message({
+                            message: '退租成功',
+                            type: 'success'
+                        });
+                        this.search()
+                    } else {
+                        this.$message.error('网络错误')
+                    }
+                }).catch(() => {
+
+                });
+            },
             handleReRent(row) {
                 this.rentRow = row
                 this.date = new Date(row.end_time)
@@ -208,6 +258,10 @@
                 this.loading = false
                 if (res.status === 0) {
                     this.search()
+                    this.$message({
+                        message: '续租成功',
+                        type: 'success'
+                    });
                     this.reRentDialog = false
                 } else {
                     this.$message.error('false')

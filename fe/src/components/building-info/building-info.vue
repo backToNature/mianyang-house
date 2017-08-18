@@ -69,7 +69,7 @@
             </el-dialog>
         </div>
         <div class="download">
-            <form method="post" ref="downloadForm" id="building-form">
+            <form method="post" ref="downloadForm">
                 <input ref="ids" type="text" name="ids" style="display: none;">
                 <iframe ref="downloadFrame" name="downloadFrame" style="display: none;" frameborder="0"></iframe>
             </form>

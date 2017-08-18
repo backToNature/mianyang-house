@@ -4,9 +4,16 @@
 let user_dao = require('../../dao/user.js');
 module.exports = async function (ctx, next) {
     let params = ctx.request.body;
-    let result = await user_dao.queryList(params);
+
+    let result = await user_dao.queryListLikeName(params);
+    let total = await user_dao.queryCount();
+    let _result = {
+        list: result,
+        total: total[0].total
+    };
     ctx.body = {
         status: 0,
-        data: result
+        data: _result,
+        msg: 'success'
     };
 };
