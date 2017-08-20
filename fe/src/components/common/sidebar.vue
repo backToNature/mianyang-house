@@ -10,7 +10,7 @@
             <el-submenu index="2">
                 <template slot="title"><i class="el-icon-star-off"></i>租户管理</template>
                 <el-menu-item index="/user-list">租户列表</el-menu-item>
-                <el-menu-item index="/unrenter-manager">历史租户</el-menu-item>
+                <!-- <el-menu-item index="/unrenter-manager">历史租户</el-menu-item> -->
             </el-submenu>
             <el-submenu index="3">
                 <template slot="title"><i class="el-icon-message"></i>通知报警</template>

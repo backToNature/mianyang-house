@@ -1,7 +1,7 @@
 <template>
     <div class="layout-header">
         <div class="layout-header-l">
-            <h1>绵阳房屋管理系统</h1>
+            <h1>平武县保障性住房管理系统</h1>
         </div>
         <div class="layout-header-r">
             <el-dropdown @command="quit">

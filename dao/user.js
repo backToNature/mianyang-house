@@ -6,9 +6,13 @@ const tableName = 'user';
 
 module.exports = {
     queryListLikeName: async function (params) {
-        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
+        let limitLeft = params.pageSize * (params.pageNo - 1);
+        let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%' LIMIT ${limitLeft}, ${params.pageSize}`;
         let _params = [params.name];
         return await sql_excute(sql, _params);
+    },
+    queryCount: async function () {
+        return await sql_excute(`SELECT COUNT(id) as total from user`)
     },
     queryList: async function (params) {
         let sql = `SELECT * FROM ${tableName}`;

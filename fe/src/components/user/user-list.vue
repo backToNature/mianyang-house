@@ -5,7 +5,7 @@
                 <h1 class="title">租户列表</h1>
             </div>
             <div class="common-header-r">
-                <div class="common-r-item">
+            <!--     <div class="common-r-item">
                     <label for="">所属楼栋:</label>
                     <el-select size="small" v-model="searchParams.building_id" filterable class="common-search-line" placeholder="所属楼栋">
                         <el-option label="全部" :value="0"></el-option>
@@ -28,12 +28,13 @@
                         type="daterange"
                         placeholder="选择日期范围">
                     </el-date-picker>
-                </div>
+                </div> -->
                 <div class="common-r-item">
                     <el-input
                       size="small"
                       placeholder="按租户名称搜索"
                       icon="search"
+                      @keyup.enter.native="search"
                       v-model="searchParams.name"
                       :on-icon-click="handleIconClick">
                     </el-input>
@@ -58,10 +59,10 @@
                     prop="dibao"
                     label="低保证号">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     prop="house_id"
                     label="已租房屋">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                     prop="phone_num"
                     label="联系方式">
@@ -81,6 +82,17 @@
                 </el-table-column>
             </el-table>
         </div>
+        <div class="common-pagenation">
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="searchParams.pageNo"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="searchParams.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
+        </div>
         <form-dialog ref="dialog"></form-dialog>
     </div>
 </template>
@@ -95,26 +107,27 @@
             return {
                 loading: false,
                 searchParams: {
-                    is_live: false,
                     name: '',
-                    building_id: 0
+                    pageNo: 1,
+                    pageSize: 10
                 },
+                total: 0,
                 dateRange: [],
                 buildingSelect: [],
                 tableData: []
             }
         },
         methods: {
-            handleIconClick() {
-
+            handleSizeChange(val) {
+                this.searchParams.pageSize = val
+                this.search()
             },
-            getbuildingSelect: async function () {
-                let res1 = await $$building_model.getList({name: '', pageSize: 100, pageNo: 1});
-                if (res1.status === 0) {
-                    this.buildingSelect = res1.data.list;
-                } else {
-
-                }
+            handleCurrentChange(val) {
+                this.searchParams.pageNo = val
+                this.search()
+            },
+            handleIconClick() {
+                this.search()
             },
             edit(row) {
                 let $dialog = this.$refs.dialog
@@ -148,14 +161,14 @@
                 let res = await $$user_model.getList(this.searchParams)
                 this.loading = false
                 if (res.status === 0) {
-                    this.tableData = res.data
+                    this.tableData = res.data.list
+                    this.total = res.data.total
                 } else {
                     this.$message.error('网络错误')
                 }
             }
         },
         beforeMount() {
-            this.getbuildingSelect()
             this.search()
         }
     }

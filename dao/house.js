@@ -25,6 +25,9 @@ module.exports = {
         let sql = `SELECT * FROM ${tableName}`;
         return await sql_excute(sql, []);
     },
+    queryListByIds: async function (params) {
+        return await sql_excute(`SELECT * FROM ${tableName} WHERE id IN (?)`, [params]);
+    },
     queryListLikeName: async function (params) {
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
         let _params = [params.name];

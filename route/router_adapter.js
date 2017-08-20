@@ -94,6 +94,15 @@ module.exports = async function (ctx, next){
                         case 'import':
                             await require('./house/import.js')(ctx, next);
                             break;
+                        case 'qrent':
+                            await require('./house/qrent.js')(ctx, next);
+                            break;
+                        case 'exportAll':
+                            await require('./house/exportAll.js')(ctx, next);
+                            break;
+                        case 'export':
+                            await require('./house/export.js')(ctx, next);
+                            break;
                     }
                     break;
             }

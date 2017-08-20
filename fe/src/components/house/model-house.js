@@ -44,5 +44,16 @@ export default {
             headers: { "Content-Type" : "application/json" }
         };
         return await $$util.ajax(url, option);
+    },
+    quitRent: async function (params) {
+        let url = '/api/house/qrent';
+        let option = {
+            mode: 'cors',
+            method: 'POST',
+            body: JSON.stringify(params),
+            credentials: 'include',
+            headers: { "Content-Type" : "application/json" }
+        };
+        return await $$util.ajax(url, option);
     }
 }

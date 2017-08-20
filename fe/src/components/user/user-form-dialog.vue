@@ -9,11 +9,11 @@
                     <el-form-item label="身份证" prop="id_card" required>
                         <el-input placeholder="请输入身份证" class="common-form-line" size="small" v-model="form.id_card"></el-input>
                     </el-form-item>
-                    <el-form-item label="已租房屋" prop="house_id" required>
+                    <!-- <el-form-item label="已租房屋" prop="house_id" required>
                         <el-select size="small" v-model="form.house_id" class="common-search-line" placeholder="选择房屋">
                             <el-option label="未租" :value="0"></el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="联系方式" prop="phone_num" required>
                         <el-input placeholder="请输入联系方式" class="common-form-line" size="small" v-model="form.phone_num"></el-input>
                     </el-form-item>
@@ -40,7 +40,6 @@
                     id: 0,
                     name: '',
                     id_card: '',
-                    house_id: 0,
                     phone_num: '',
                     dibao: ''
                 },
