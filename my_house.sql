@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50139
 File Encoding         : 65001
 
-Date: 2017-08-10 02:35:34
+Date: 2017-08-20 22:41:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,13 +23,15 @@ CREATE TABLE `account` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `account` varchar(100) NOT NULL,
   `pwd` varchar(100) NOT NULL,
+  `name` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of account
 -- ----------------------------
-INSERT INTO `account` VALUES ('1', '123', '123');
+INSERT INTO `account` VALUES ('1', '123', '123', '豪哥');
+INSERT INTO `account` VALUES ('2', 'guohao', '123', '豪哥');
 
 -- ----------------------------
 -- Table structure for building
@@ -75,18 +77,19 @@ CREATE TABLE `house` (
   KEY `building_id` (`building_id`),
   CONSTRAINT `house_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `house_ibfk_2` FOREIGN KEY (`building_id`) REFERENCES `building` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of house
 -- ----------------------------
 INSERT INTO `house` VALUES ('1', '11', '43', null, '1幢1单元5楼1号', '2016-12-07 00:00:00', '2017-09-01 00:00:00', '公租房申请');
-INSERT INTO `house` VALUES ('2', '9', '43', null, '1幢1单元5楼2号', '2017-07-01 00:00:00', '2019-08-15 00:00:00', '火烧房子');
-INSERT INTO `house` VALUES ('3', '13', '43', null, '1幢1单元6楼1号', '2016-12-09 00:00:00', '2019-01-09 00:00:00', '公租房申请');
+INSERT INTO `house` VALUES ('2', '9', '43', null, '1幢1单元5楼2号', '2017-07-01 00:00:00', '2017-08-02 00:00:00', '火烧房子');
+INSERT INTO `house` VALUES ('3', '13', '43', null, '1幢1单元6楼1号', '2016-12-09 00:00:00', '2019-01-11 00:00:00', '公租房申请');
 INSERT INTO `house` VALUES ('4', '12', '43', null, '1幢1单元6楼2号', '2016-01-01 00:00:00', '2018-02-16 00:00:00', '公租房申请');
 INSERT INTO `house` VALUES ('5', '14', '43', null, '1幢2单元1楼1号', '2016-11-10 00:00:00', '2018-12-13 00:00:00', '金色家园过渡安置');
 INSERT INTO `house` VALUES ('6', '15', '43', null, '1幢2单元1楼2号', '2016-11-01 00:00:00', '2018-12-27 00:00:00', '金色家园过渡安置');
 INSERT INTO `house` VALUES ('7', '10', '44', '绵阳二局', '这是新增楼栋', '2017-08-09 00:00:00', '2017-08-25 00:00:00', '啦啦');
+INSERT INTO `house` VALUES ('8', null, null, null, '根深蒂固', null, null, null);
 
 -- ----------------------------
 -- Table structure for user
