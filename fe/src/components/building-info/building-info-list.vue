@@ -4,19 +4,14 @@
             <el-table @expand="expand" :data="tableData" @selection-change="handleSelectionChange">
                 <el-table-column type="expand">
                   <template scope="props">
-                    <div class="expandRow" v-loading="expandLoading">
-                        <a class="house-item" target="_blank" :href="`/index.html#/house?building_name=${props.row.name}&name=${item.name}`" v-for="item in houseList"><el-button type="text" size="small">{{item.name}}</el-button></a>
+                    <div class="expandRow" v-loading="props.row.expandLoading">
+                        <a class="house-item" target="_blank" :href="`/index.html#/house?building_name=${props.row.name}&name=${item.name}`" v-for="item in props.row.houseList"><el-button type="text" size="small">{{item.name}}</el-button></a>
                     </div>
                   </template>
                 </el-table-column>
                 <el-table-column
                   type="selection"
                   width="55"> 
-                </el-table-column>
-                <el-table-column
-                  prop="id"
-                  label="id"
-                  width="60">
                 </el-table-column>
                 <el-table-column
                   prop="name"
@@ -34,10 +29,6 @@
                   prop="lat"
                   label="纬度">
                 </el-table-column>
-               <!--  <el-table-column
-                  prop="house"
-                  label="">
-                </el-table-column> -->
                 <el-table-column
                   prop="description"
                   label="描述">
@@ -83,8 +74,6 @@
                     pageNo: 1,
                     pageSize: 10
                 },
-                expandLoading: true,
-                houseList: [],
                 loading: false,
                 tableData: [],
                 total: 0,
@@ -97,6 +86,7 @@
                 let _params = Object.assign({name: this.$parent.searchParams.name}, this.searchParams)
                 let result = await $$model.getList(_params)
                 this.loading = false
+                result.data.list.forEach(item => {item.expandLoading = false})
                 this.tableData = result.data.list
                 this.total = result.data.total
             },
@@ -123,14 +113,16 @@
             },
             expand: async function (row, expanded) {
                 let result = []
-                if (expanded) {
-                    this.expandLoading = true
+                if (!row.expanded) {
+                    row.expandLoading = true
                     result = await $$model.getHouseList({id: row.id})
+                    row.expandLoading = false
                     if (result.status === 0) {
-                        this.houseList = result.data
+                        row.houseList = result.data
                     }
-                    this.expandLoading = false
+                    row.expanded = true
                 }
+
             }
         },
         beforeMount() {
@@ -145,9 +137,9 @@
         }
     }
     
-    // .expandRow {
-    //     width:-moz-calc(~`100% - 200px`);
-    //     width:-webkit-calc(~`100% - 200px`);
-    //     width: calc(~`100% - 200px`);
-    // }
+    .expandRow {
+        width: -moz-calc(~"100% - 200px");
+        width: -webkit-calc(~"100% - 200px");
+        width: calc(~"100% - 200px");
+    }
 </style>

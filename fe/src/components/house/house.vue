@@ -52,11 +52,11 @@
                   type="selection"
                   width="55"> 
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="id"
                   label="id"
                   width="60">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   prop="house_name"
                   label="名称">

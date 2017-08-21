@@ -97,9 +97,9 @@
         },
         methods: {
             search() {
-                Promise.all([$$model_user.getList({}), $$model_building.getList({name: '', pageNo: 1, pageSize: 100})]).then(values => {
+                Promise.all([$$model_user.getList({name: '', pageNo: 1, pageSize: 1000}), $$model_building.getList({name: '', pageNo: 1, pageSize: 100})]).then(values => {
                     if (values[0].status === 0) {
-                        this.userSelect = values[0].data
+                        this.userSelect = values[0].data.list
                     }
                     if (values[1].status === 0) {
                         this.buildingSelect = values[1].data.list

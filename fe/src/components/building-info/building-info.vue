@@ -64,7 +64,7 @@
                       <el-button size="small" type="primary">点击上传</el-button>
                       <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件，且不超过500kb</div>
                     </el-upload>
-                    <a href="/assets/楼栋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
+                    <a href="/assets/房屋录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
                 </div>
             </el-dialog>
         </div>

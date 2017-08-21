@@ -14,10 +14,10 @@
                             <el-option label="未租" :value="0"></el-option>
                         </el-select>
                     </el-form-item> -->
-                    <el-form-item label="联系方式" prop="phone_num" required>
+                    <el-form-item label="联系方式" prop="phone_num">
                         <el-input placeholder="请输入联系方式" class="common-form-line" size="small" v-model="form.phone_num"></el-input>
                     </el-form-item>
-                    <el-form-item label="低保号" prop="dibao" required>
+                    <el-form-item label="低保号" prop="dibao">
                         <el-input placeholder="请输入低保号" class="common-form-line" size="small" v-model="form.dibao"></el-input>
                     </el-form-item>
                 </el-form>
@@ -57,7 +57,6 @@
                                 this.form[key] = ''
                             }
                         }
-                        this.form.house_id = 0
                     }
                 }
             }
