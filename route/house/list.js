@@ -18,13 +18,9 @@ let house_dao = require('../../dao/house.js');
 module.exports = async function (ctx, next) {
     let params = ctx.request.body;
     let result = await house_dao.queryUnion(params.user_name, params.start_time, params.end_time, params.building_name, params.name, params.pageSize, params.pageNo);
-    let _result = {
-        list: result,
-        total: result.length
-    };
     ctx.body = {
         status: 0,
-        data: _result,
+        data: result,
         msg: 'success'
     };
 };

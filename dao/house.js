@@ -67,33 +67,49 @@ module.exports = {
             building.name AS building_name,
             building.description AS building_desc,
             building.img_url`;
+        let count = 'COUNT(*)';
         let sql = `SELECT ${rowName} FROM house LEFT JOIN building ON house.building_id = building.id LEFT JOIN \`user\` ON house.user_id = \`user\`.id`;
+        let sql1 = `SELECT ${count} FROM house LEFT JOIN building ON house.building_id = building.id LEFT JOIN \`user\` ON house.user_id = \`user\`.id`;
         if (user_name !== '') {
             sql += ` WHERE \`user\`.name LIKE '%${user_name}%'`;
+            sql1 += ` WHERE \`user\`.name LIKE '%${user_name}%'`;
         }
         if (name !== '') {
             if (sql.indexOf('WHERE') >= 0) {
                 sql += ` AND house.name LIKE '%${name}%'`;
+                sql1 += ` AND house.name LIKE '%${name}%'`;
             } else {
                 sql += ` WHERE house.name LIKE '%${name}%'`;
+                sql1 += ` WHERE house.name LIKE '%${name}%'`;
             }
         }
         if (building_name !== '') {
             if (sql.indexOf('WHERE') >= 0) {
                 sql += ` AND building.name LIKE '%${building_name}%'`;
+                sql1 += ` AND building.name LIKE '%${building_name}%'`;
             } else {
                 sql += ` WHERE building.name LIKE '%${building_name}%'`;
+                sql1 += ` WHERE building.name LIKE '%${building_name}%'`;
             }
         }
         if (start_time && end_time) {
             if (sql.indexOf('WHERE') >= 0) {
                 sql += ` AND house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
+                sql1 += ` AND house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
             } else {
                 sql += ` WHERE house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
+                sql1 += ` WHERE house.start_time>'${start_time}' AND house.end_time<'${end_time}'`;
             }
         }
         sql += `  LIMIT ${limitLeft}, ${pageSize}`;
-        return await sql_excute(sql, []);
+        let list = await sql_excute(sql, []);
+        let total = await sql_excute(sql1, []);
+        total = total[0]['COUNT(*)'];
+        return {
+            list: list,
+            total:total
+        };
+        // return await sql_excute(sql, []);
     },
     importData: async function (params) {
         console.log(params);
