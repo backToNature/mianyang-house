@@ -34,6 +34,9 @@ module.exports = {
         placeholder = placeholder.substring(0, placeholder.length - 1);
         return await sql_excute(`INSERT INTO ${tableName}(${frag}) VALUES(${placeholder});`, _params)
     },
+    queryListByIds: async function (params) {
+        return await sql_excute(`SELECT * FROM ${tableName} WHERE id IN (?)`, [params]);
+    },
     updateRow: async function (params) {
         let frag = '', _params = [];
         for (let key in params) {

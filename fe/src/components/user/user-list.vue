@@ -41,16 +41,24 @@
                 </div>
                 <div class="common-r-item">
                     <el-button size="small" type="primary" @click="addNew">新增</el-button>
+                    <el-button size="small" type="primary" @click="importExcel">导入</el-button>
+                    <el-button size="small" type="primary" @click="exportSingle">导出</el-button>
+                    <el-button size="small" type="primary" @click="exportAll">导出全部</el-button>
+
                 </div>
             </div>
         </div>
         <div class="table-wrapper" v-loading="loading">
-            <el-table :data="tableData">
+            <el-table :data="tableData"  @selection-change="handleSelectionChange">
                <!--  <el-table-column
                     prop="id"
                     label="id"
                     width="60">
                 </el-table-column> -->
+                <el-table-column
+                  type="selection"
+                  width="55"> 
+                </el-table-column>
                 <el-table-column
                     prop="name"
                     label="姓名">
@@ -93,6 +101,25 @@
                 :total="total">
             </el-pagination>
         </div>
+        <div class="download">
+            <form method="post" ref="downloadForm">
+                <input ref="ids" type="text" name="ids" style="display: none;">
+                <iframe ref="downloadFrame" name="downloadFrame" style="display: none;" frameborder="0"></iframe>
+            </form>
+        </div>
+        <el-dialog size="tiny" title="注意: 请按照上传模板的格式进行上传" :visible.sync="importDialogVisible">
+            <div class="import-dialog" v-loading="importLoading">
+                <el-upload
+                  class="upload-demo"
+                  action="/api/user/import"
+                  :before-upload="beforeImport"
+                  :on-success="importSuccess">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件，且不超过500kb</div>
+                </el-upload>
+                <a href="/assets/租户录入模板.xls"><el-button size="small" type="text">上传模板下载</el-button></a>
+            </div>
+        </el-dialog>
         <form-dialog ref="dialog"></form-dialog>
     </div>
 </template>
@@ -114,10 +141,17 @@
                 total: 0,
                 dateRange: [],
                 buildingSelect: [],
-                tableData: []
+                tableData: [],
+                selectedIds: [],
+                importLoading: false,
+                importDialogVisible: false
             }
         },
         methods: {
+            handleSelectionChange(val) {
+                let selectedIds = val.map(item => item.id)
+                this.selectedIds = selectedIds
+            },
             handleSizeChange(val) {
                 this.searchParams.pageSize = val
                 this.search()
@@ -138,6 +172,25 @@
                 this.$refs.dialog.form.id = 0
                 this.$refs.dialog.dialogVisible = true
             },
+            importExcel() {
+                this.importDialogVisible = true
+            },
+            beforeImport() {
+                this.importLoading = true
+            },
+            importSuccess(res) {
+                this.importLoading = false
+                if (res.status === 0) {
+                    this.$message({
+                        message: '导入成功',
+                        type: 'success'
+                    })
+                    this.importDialogVisible = false
+                    this.search()
+                } else {
+                    this.$message.error(res.response.msg)
+                }
+            },
             del: async function (id) {
                 this.$confirm('是否删除该用户?', '提示', {
                     confirmButtonText: '确定',
@@ -155,6 +208,27 @@
                 }).catch(() => {
 
                 });
+            },
+            exportSingle: async function () {
+                let selectedIds = this.selectedIds
+                if (!selectedIds.length) {
+                    this.$message({
+                        message: '请选择导出条目',
+                        type: 'warning'
+                    })
+                    return
+                }
+                let downloadForm = this.$refs.downloadForm
+                this.$refs.ids.value = JSON.stringify(selectedIds)
+                downloadForm.setAttribute('action', '/api/user/export')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
+            },
+            exportAll: async function () {
+                let downloadForm = this.$refs.downloadForm
+                downloadForm.setAttribute('action', '/api/user/exportAll')
+                downloadForm.setAttribute('target', 'downloadFrame')
+                downloadForm.submit()
             },
             search: async function () {
                 this.loading = true

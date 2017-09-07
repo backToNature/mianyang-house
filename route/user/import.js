@@ -4,7 +4,7 @@
 const xlsx = require('node-xlsx').default;
 const path = require('path');
 const shell = require('shelljs');
-let building_dao = require('../../dao/user.js');
+let user_dao = require('../../dao/user.js');
 
 let errorObj = {
     status: 500,
@@ -36,7 +36,7 @@ module.exports = async function (ctx, next) {
                 });
             }
             let _params = list.map(item => [item.name, item.dibao, item.id_card, item.phone_num, item.etc]);
-            let result = await building_dao.importData(_params);
+            let result = await user_dao.importData(_params);
             if (result.insertId >= 0) {
                 ctx.body = {
                     status: 0,
