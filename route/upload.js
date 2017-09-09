@@ -35,7 +35,6 @@ let handleFileMd5 = (filePath) =>{
         });
         stream.on('end', () => {
             let str = md5sum.digest('hex').toUpperCase();
-            console.log('MD5签名为:'+str+'.耗时:'+(new Date().getTime()-start)/1000.00+"秒");
             let finalFileName =  str + path.extname(filePath);
             let finalPath = path.join(process.cwd(), 'upload_dir/assets', finalFileName);
             shell.cp(filePath, finalPath);

@@ -5,7 +5,8 @@ const xlsx = require('node-xlsx').default;
 const path = require('path');
 const shell = require('shelljs');
 let user_dao = require('../../dao/user.js');
-
+let log4js = require('log4js');
+let logger = log4js.getLogger('app');
 
 let errorObj = {
     status: 500,
@@ -49,7 +50,7 @@ module.exports = async function (ctx, next) {
             ctx.body = Object.assign(errorObj, {msg: '文件上传失败'});
         }
     } catch (e) {
-        console.log(e);
+        logger.error(JSON.stringify(e));
         ctx.body = Object.assign(errorObj, {msg: e});
     }
 };

@@ -4,7 +4,7 @@ let bodyParser = require('koa-bodyparser');
 let session = require('koa-session');
 let path = require('path');
 
-let log4js = require('koa-log4');
+let log4js = require('log4js');
 let logger = log4js.getLogger('app');
 log4js.configure({
     appenders: {

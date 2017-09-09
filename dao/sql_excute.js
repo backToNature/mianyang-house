@@ -5,7 +5,7 @@ let mysql = require('mysql');
 let db_config = require('../config.js').db_config;
 
 let pool = mysql.createPool(db_config);
-let log4js = require('koa-log4');
+let log4js = require('log4js');
 let logger = log4js.getLogger('app');
 
 module.exports = (sql, params) => {

@@ -1,6 +1,8 @@
 /**
  * Created by daringuo on 2017/7/25.
  */
+let log4js = require('log4js');
+let logger = log4js.getLogger('app');
 
 module.exports = async function (ctx, next){
     let method = ctx.method.toLocaleLowerCase();
@@ -114,6 +116,7 @@ module.exports = async function (ctx, next){
             }
         }
     } catch (e) {
+        logger.error(JSON.stringify(e));
         ctx.body = {
             status: 500,
             msg: e
