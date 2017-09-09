@@ -4,9 +4,26 @@ let bodyParser = require('koa-bodyparser');
 let session = require('koa-session');
 let path = require('path');
 
+let log4js = require('koa-log4');
+let logger = log4js.getLogger('app');
+log4js.configure({
+    appenders: {
+        app: { type: 'dateFile', filename: 'log/log.log' }
+    },
+    categories: {
+        default: { appenders: ['app'], level: 'debug' }
+    }
+});
+
 let app = new Koa();
 let router = new Router();
 
+app.use(async (ctx, next) => {
+    const start = new Date();
+    await next();
+    const ms = new Date() - start;
+    logger.info(`${ctx.method} ${ctx.url} ${ctx.status} - ${ms}ms`);
+});
 app.use(bodyParser());
 
 app.keys = ['fuck you'];
@@ -21,9 +38,6 @@ app.use(staticCache(path.join(__dirname, '/upload_dir'), {
     dynamic: true
     // preload: false
 }));
-
-
-
 app.use(require('./lib/filter.js'));
 
 app.use(staticCache(path.join(__dirname, '/view'), {
@@ -50,6 +64,10 @@ router.post('/api/:type/:handler', require('./route/router_adapter.js'));
 app
     .use(router.routes())
     .use(router.allowedMethods());
+
+app.on('error', function (err, ctx) {
+    logger.error('server error', err, ctx)
+});
 
 app.listen(80);
 console.log('server start');

@@ -157,7 +157,6 @@ module.exports = {
         // return await sql_excute(sql, []);
     },
     importData: async function (params) {
-        console.log(params);
         return await sql_excute(`INSERT INTO ${tableName}(name, start_time, end_time, description, building_id) VALUES ?`, [params])
     },
     addRow: async function (params) {

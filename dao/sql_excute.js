@@ -5,21 +5,23 @@ let mysql = require('mysql');
 let db_config = require('../config.js').db_config;
 
 let pool = mysql.createPool(db_config);
+let log4js = require('koa-log4');
+let logger = log4js.getLogger('app');
 
 module.exports = (sql, params) => {
     return new Promise((resolve, reject) => {
         pool.query(sql, params, (error, results) => {
             if (error) {
-                console.log(`sql:${sql}`, error);
+                logger.error();
                 reject(error);
             } else {
-                console.log(`sql:${sql}`, results);
+                logger.info(`sql:${sql},${JSON.stringify(results)}`);
                 resolve(results);
             }
         })
     }).catch(err => {
         let error = `db query error: ${err}`;
-        console.log(`sql:${sql}`, error);
+        logger.info(`sql:${sql},${JSON.stringify(error)}`);
         return Promise.reject(error);
     });
 };
