@@ -10,17 +10,23 @@ const os = require('os');
 
 module.exports = async function (ctx, next) {
 
-    let result = await house_dao.queryList();
-    let head = ['名称', '入住时间', '退租时间', '所属居委会', '描述'];
+    let result = await house_dao.queryAllList();
+    let head = ['名称', '租户', '联系方式', '身份证号', '低保证号', '所属楼栋', '居委会', '入住时间', '到期时间', '地址', '描述'];
     let data = [head];
     result.forEach(item => {
-        if (item.name) {
+        if (item.house_name) {
             data.push([
-                item.name,
+                item.house_name,
+                item.user_name,
+                item.phone_num,
+                item.id_card,
+                item.dibao,
+                item.building_name,
+                item.jwh,
                 item.start_time,
                 item.end_time,
-                item.jwh,
-                item.description
+                item.address,
+                item.house_desc
             ]);
         }
     });

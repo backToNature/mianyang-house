@@ -25,8 +25,53 @@ module.exports = {
         let sql = `SELECT * FROM ${tableName}`;
         return await sql_excute(sql, []);
     },
+    queryAllList: async function () {
+        let rowName = `
+        	house.id,
+            house.name AS house_name,
+            house.jwh,
+            house.start_time,
+            house.end_time,
+            house.description AS house_desc,
+            user.id AS user_id,
+            user.name AS user_name,
+            user.dibao,
+            user.phone_num,
+            user.id_card,
+            user.etc AS user_etc,
+            building.id AS building_id,
+            building.address,
+            building.lng,
+            building.lat,
+            building.name AS building_name,
+            building.description AS building_desc,
+            building.img_url`;
+        let sql = `SELECT ${rowName} FROM ${tableName} LEFT JOIN building ON house.building_id = building.id LEFT JOIN \`user\` ON house.user_id = \`user\`.id`;
+        return await sql_excute(sql, []);
+    },
     queryListByIds: async function (params) {
-        return await sql_excute(`SELECT * FROM ${tableName} WHERE id IN (?)`, [params]);
+        let rowName = `
+        	house.id,
+            house.name AS house_name,
+            house.jwh,
+            house.start_time,
+            house.end_time,
+            house.description AS house_desc,
+            user.id AS user_id,
+            user.name AS user_name,
+            user.dibao,
+            user.phone_num,
+            user.id_card,
+            user.etc AS user_etc,
+            building.id AS building_id,
+            building.address,
+            building.lng,
+            building.lat,
+            building.name AS building_name,
+            building.description AS building_desc,
+            building.img_url`;
+        let sql = `SELECT ${rowName} FROM ${tableName} LEFT JOIN building ON house.building_id = building.id LEFT JOIN \`user\` ON house.user_id = \`user\`.id WHERE house.id IN (?)`;
+        return await sql_excute(sql, [params]);
     },
     queryListLikeName: async function (params) {
         let sql = `SELECT * FROM ${tableName} WHERE name LIKE '%${params.name}%'`;
