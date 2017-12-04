@@ -195,5 +195,15 @@ module.exports = {
     delRow: async function (params) {
         let _params = [params.id];
         return await sql_excute(`DELETE FROM ${tableName} where id=?`, _params);
-    }
+    },
+    queryHouseInfo: async function (params) {
+        let sql = `
+            SELECT Count(id) AS 'info' FROM house WHERE user_id is NULL
+            UNION SELECT Count(id) FROM house
+            UNION SELECT Count(id) FROM house WHERE DATE_ADD(CURDATE(), INTERVAL 60 DAY) >= end_time && end_time > CURDATE()
+            UNION SELECT Count(id) FROM house WHERE end_time < CURDATE()
+        `;
+        return await sql_excute(sql, []);
+    },
+
 };

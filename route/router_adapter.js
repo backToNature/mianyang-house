@@ -111,6 +111,9 @@ module.exports = async function (ctx, next){
                         case 'export':
                             await require('./house/export.js')(ctx, next);
                             break;
+                        case 'info':
+                            await require('./house/info.js')(ctx, next);
+                            break;
                     }
                     break;
             }

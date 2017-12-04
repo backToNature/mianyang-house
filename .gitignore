@@ -1,2 +1,4 @@
 node_modules/
 fe/dist/
+log/
+.idea/
